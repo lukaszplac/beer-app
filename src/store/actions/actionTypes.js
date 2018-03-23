@@ -1,0 +1,5 @@
+export const SET_FIRST_BEERS = 'SET_FIRST_BEERS';
+export const SET_MORE_BEERS = 'SET_MORE_BEERS';
+export const FETCHING_ERROR = 'FETCHING_ERROR';
+export const ON_LOADING = "ON_LOADING";
+export const FETCHING_DONE = "FETCHING_DONE";
