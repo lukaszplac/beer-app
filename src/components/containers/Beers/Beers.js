@@ -3,13 +3,16 @@ import Spinner from '../../presentational/Spinner/Spinner';
 import * as actions from '../../../store/actions/index';
 import {connect} from 'react-redux';
 import Beer from '../../presentational/Beer/Beer';
+import Modal from '../../containers/Modal/Modal';
 import styles from './Beers.scss';
+import BeerDetails from '../BeerDetails/BeerDetails';
 
 class Beers extends Component {
 
     state = {
         pageNumber: 1,
-        //requestSent: false
+        beerClicked: false,
+        beerToShow: 0
     }
 
     componentDidMount() {
@@ -32,6 +35,20 @@ class Beers extends Component {
         }
     }
 
+    onBeerClicked(beerId) {
+        this.setState({
+            beerClicked: true,
+            beerToShow: beerId-1
+        })
+    }
+
+    onModalClosed() {
+        this.setState({
+            beerClicked: false,
+            beerToShow: null
+        })
+    }
+
     render() {
         let beers = null;
         if (!this.props.error) {
@@ -39,13 +56,22 @@ class Beers extends Component {
                 <Beer key={beer.id} 
                     name={beer.name} 
                     tagline={beer.tagline} 
-                    image_url={beer.image_url} />
+                    image_url={beer.image_url} 
+                    clicked={ () => this.onBeerClicked(beer.id) }/>
             ));
         } 
         return (
             <div className={styles.Beers}>
+                <Modal 
+                    show = {this.state.beerClicked}
+                    modalClosed = {() => this.onModalClosed()}>
+                        {this.state.beerClicked ? <BeerDetails 
+                                                    beer={this.props.beers[this.state.beerToShow]}
+                                                    areAllFetched={this.props.allFetched}/> : null}
+                </Modal>
                 {beers}
                 {this.props.loading ? <div className={styles.Spinner}><Spinner /></div> : null}
+                {this.props.allFetched ? <div className={styles.EndLine}></div> : null}
             </div>
         );
     }
@@ -53,11 +79,11 @@ class Beers extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        error: state.error,
-        beers: state.beers,
-        loading: state.loading,
-        allFetched: state.allFetched,
-        initialized: state.initialized
+        error: state.beer.error,
+        beers: state.beer.beers,
+        loading: state.beer.loading,
+        allFetched: state.beer.allFetched,
+        initialized: state.beer.initialized
     }
 }
 

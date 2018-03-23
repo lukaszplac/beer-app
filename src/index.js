@@ -4,16 +4,22 @@ import './index.scss';
 import App from './App';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware, compose} from 'redux';
+import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import registerServiceWorker from './registerServiceWorker';
 
 import beerReducer from './store/reducers/beerReducer';
+import modalReducer from './store/reducers/modalReducer';
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
+const rootReducer = combineReducers({
+    beer: beerReducer,
+    modal: modalReducer
+})
+
 const store = createStore(
-    beerReducer,
+    rootReducer,
     composeEnhancers(applyMiddleware(thunk))
 )
 

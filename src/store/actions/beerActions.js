@@ -39,7 +39,7 @@ export const initialLoad = (page) => {
     return dispatch => {
         dispatch(onLoading());
         //getting only 20 per page
-        let url = '/beers?page=' + page + "&per_page=80" 
+        let url = '/beers?page=' + page + "&per_page=20" 
         axios.get(url)
              .then(response => {
                  dispatch(setFirstBeers(response.data))              
@@ -54,7 +54,7 @@ export const onLoadMore = (page) => {
     return dispatch => {
         dispatch(onLoading());
         //getting only 20 per page
-        let url = '/beers?page=' + page + "&per_page=80" 
+        let url = '/beers?page=' + page + "&per_page=20" 
         axios.get(url)
              .then(response => {
                  response.data.length === 0 ? dispatch(fetchingDone()) : dispatch(setMoreBeers(response.data))              

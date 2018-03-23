@@ -19,7 +19,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 beers: [...action.beers],
-                initialized: true
+                initialized: true,
+                loading: false
             }
         case actionTypes.SET_MORE_BEERS:   
             return {
@@ -31,7 +32,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCHING_ERROR:
             return {
                 ...state,
-                error: true
+                error: true,
+                loading: false
             }
         case actionTypes.FETCHING_DONE:
             return {

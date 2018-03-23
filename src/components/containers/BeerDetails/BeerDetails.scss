@@ -1,0 +1,56 @@
+@import '../../../helpers/flex-mixin.scss';
+
+.BeerDetails {
+    * {
+        border: 1px solid blue;
+    }
+    @include flexbox();
+    @include flex-direction(column);
+    @include align-items(center);
+    @include justify-content(center); 
+    @include align-content(center);
+    @include flex-wrap(wrap);
+    .Pictures {
+        width: 90%;
+        @include flex(0 1 40%);
+        @include flexbox();
+        @include flex-direction(row);
+        @include align-items(center);
+        @include justify-content(space-between); 
+        @include align-content(center);
+        @include flex-wrap(center);
+        .MainImage {
+            @include flexbox();
+            @include flex(0 1 30%);
+            @include flex-direction(row);
+            @include align-items(flex-start);
+            @include justify-content(flex-start); 
+            @include align-content(flex-start);
+            @include flex-wrap(wrap);
+            img {
+                max-height: 180px;
+                height: auto;
+                width: 100%;
+            }
+        }
+        .OtherImages {
+            @include flexbox();
+            @include flex(0 1 65%);
+            @include flex-direction(column);
+            @include align-items(center);
+            @include justify-content(center); 
+            @include align-content(center);
+            @include flex-wrap(wrap);
+        }
+    }
+    .TextDescr {
+        width: 90%;
+        @include flex(0 1 60%);
+        @include flexbox();
+        @include flex-direction(row);
+        @include align-items(flex-start);
+        @include justify-content(space-between); 
+        @include align-content(flex-start);
+        @include flex-wrap(nowrap);
+    }
+}

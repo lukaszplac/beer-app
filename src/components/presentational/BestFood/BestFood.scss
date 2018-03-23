@@ -1,0 +1,19 @@
+@import '../../../helpers/flex-mixin.scss';
+
+.BestFood {
+    @include flex(0 1 30%);
+    @include flexbox();
+    @include flex-direction(column);
+    @include align-items(flex-start);
+    @include justify-content(flex-start); 
+    @include align-content(flex-start);
+    @include flex-wrap(nowrap);
+    h4 {
+        margin: 5px;
+        color: rgb(115, 45, 128);
+    }
+    p {
+        margin: 5px;
+        font-size: 14px;
+    }
+}
