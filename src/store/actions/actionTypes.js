@@ -17,3 +17,4 @@ export const GET_EBC_LT = 'GET_EBC_LT';
 
 export const ON_LOADING_MODAL = 'ON_LOADING_MODAL';
 export const FETCH_MODAL_BEERS_ERROR = 'FETCH_MODAL_BEERS_ERROR';
+export const GET_ONE_BEER = 'GET_ONE_BEER';

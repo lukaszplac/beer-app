@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+    beer: [],
     beersABVGt: [],
     beersABVLt: [],
     beersIBUGt: [],
@@ -22,7 +23,14 @@ const reducer = (state = initialState, action) => {
         case (actionTypes.GET_IBU_GT):
             return {
                 ...state,
-                beersIBUGt: [...action.beers]
+                beersIBUGt: [...action.beers],
+                loading: false
+            }
+        case (actionTypes.GET_ONE_BEER):
+            return {
+                ...state,
+                beer: [...action.beer],
+                loading: false
             }
         case (actionTypes.FETCH_MODAL_BEERS_ERROR):
             return {

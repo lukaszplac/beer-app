@@ -2,7 +2,6 @@ import * as actionTypes from './actionTypes';
 import axios from '../../axios-instances';
 
 export const setMoreBeers = (data) => {
-    console.log(data);
     return {
         type: actionTypes.SET_MORE_BEERS,
         beers: data
@@ -10,7 +9,6 @@ export const setMoreBeers = (data) => {
 }
 
 export const setFirstBeers = (data) => {
-    console.log(data);
     return {
         type: actionTypes.SET_FIRST_BEERS,
         beers: data

@@ -15,7 +15,14 @@ export const onLoadBeersIBUGt = (data) => {
     }
 }
 
-export const fetchingIbuGtBeersError = () => {
+export const onLoadOneBeer = (data) => {
+    return {
+        type: actionTypes.GET_ONE_BEER,
+        beer: data
+    }
+}
+
+export const fetchingBeersError = () => {
     return {
         type: actionTypes.FETCH_MODAL_BEERS_ERROR
     }
@@ -24,14 +31,27 @@ export const fetchingIbuGtBeersError = () => {
 export const apiCallIbuGt = (ibu) => {
     return dispatch => {
         dispatch(onLoadingModal());
-        //getting only 20 per page
         let url = '/beers?ibu_gt=' + ibu; 
         axios.get(url)
              .then(response => {
                  response.data.length === 0 ? null : dispatch(onLoadBeersIBUGt(response.data))              
              })
              .catch(error => {
-                 dispatch(fetchingIbuGtBeersError());
+                 dispatch(fetchingBeersError());
+             })
+    }
+}
+
+export const getOneBeer = (id) => {
+    return dispatch => {
+        dispatch(onLoadingModal());
+        let url = '/beers/' + id; 
+        axios.get(url)
+             .then(response => {
+                 dispatch(onLoadOneBeer(response.data))              
+             })
+             .catch(error => {
+                 dispatch(fetchingBeersError());
              })
     }
 }
