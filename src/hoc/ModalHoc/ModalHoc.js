@@ -6,6 +6,8 @@ import * as actions from '../../store/actions/index';
 import AuxComp from '../AuxComp/AuxComp';
 import Modal from '../../components/containers/Modal/Modal';
 import BeerDetails from '../../components/containers/BeerDetails/BeerDetails';
+import Spinner from '../../components/presentational/Spinner/Spinner';
+import {Redirect} from 'react-router-dom';
 
 class ModalHoc extends Component {
     
@@ -13,16 +15,16 @@ class ModalHoc extends Component {
         show: false,
     }
 
-    componentDidMount() {
-        //getting beer from api based on react router id param
-        this.props.getBeer(this.props.match.params.id);
-        this.showModal();
-    }
-    
-    showModal() {
+
+    componentWillMount () {
         this.setState({
             show: true
         })
+    }
+
+    componentDidMount() {
+        //getting beer from api based on react router id param
+        this.props.getBeer(this.props.match.params.id);
     }
 
     onModalClosed() {
@@ -32,16 +34,23 @@ class ModalHoc extends Component {
     }
 
     render() {
+        let beer;
+        if (!this.props.error) {
+            beer = this.props.beer[0];
+        }
+        console.log(this.props.beer);
+        console.log(beer);
         return(
-            //AuxComp only wraps without creating real dom element
             <AuxComp>
+                {this.state.show ? null : <Redirect to="/"/>}
                 <Modal 
                     show = {this.state.show}
                     modalClosed = {() => this.onModalClosed()}>
-                       <BeerDetails 
-                            beer={this.props.beer}
+                        {this.props.beer.length > 0 ? <BeerDetails 
+                            beer={beer}
                             areAllFetched={false}/> : null}
-                </Modal>
+                    {this.props.loading ? <Spinner /> : null}
+                </Modal>  
             </AuxComp>
         );
     }
@@ -49,7 +58,9 @@ class ModalHoc extends Component {
 
 const mapStateToProps = state => {
     return {
-        beer: state.modal.beer
+        beer: state.modal.oneBeer,
+        loading: state.modal.loadingModal,
+        error: state.modal.error
     }
 }
 

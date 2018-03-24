@@ -10,9 +10,9 @@ import * as actions from '../../../store/actions/index';
 class BeerDetails extends Component {
 
     componentDidMount() {
-        let ibu = Math.round(this.props.beer.ibu);
-        this.props.areAllFetched ? null : this.props.apiRequestForIbuSimillarBeers_Gt(ibu);
-        this.props.beersGreaterIBU.forEach((b) => console.log(b.ibu));
+        let abv = Math.round(this.props.beer.abv);
+        this.props.areAllFetched ? null : this.props.apiRequestForAbvSimillarBeers_Gt(abv);
+        //this.props.beersGreaterABV.forEach((b) => console.log(b.abv));
     }
 
     // requestForSimilarBeersFromLocalStore() {
@@ -20,10 +20,18 @@ class BeerDetails extends Component {
     // }
 
     render () {
-        console.log(this.props.beer);
+        let abvGreaterBeers = this.props.beersGreaterABV.sort((p, n) => p.abv > n.abv)
+                                                        .slice(0,3)
+                                                        .map((beer) => (
+                                                            <AbvBeers beerImage={beer.image_url} 
+                                                                      beerName={beer.name}
+                                                                      abv={beer.abv}/>                                                      
+                                                        ));
+
         let bestServedWith = this.props.beer.food_pairing.map((food, index) => (
             <p key={index}>{food}</p>
         ));
+
         return(
             <AuxComp>
                 <div className={styles.BeerDetails}>
@@ -31,7 +39,10 @@ class BeerDetails extends Component {
                         <div className={styles.MainImage}>
                             <div style={{width: '30%'}}><img src={this.props.beer.image_url} /></div>
                         </div>
-                        <div className={styles.OtherImages}>
+                        <div className={styles.RightPanel}>
+                            <div>
+                            {this.state.loadingABV ? <Spinner /> : {abvGreaterBeers}}
+                            </div>
                         </div>
                     </div>
                     <div className={styles.TextDescr}>
@@ -54,20 +65,15 @@ class BeerDetails extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        beersGreaterABV: state.modal.beersABVGt,
-        beersLowerABV: state.modal.beersABVLt,
-        beersGreaterIBU: state.modal.beersIBUGt,
-        beersLowerIBU: state.modal.beersIBULt,
-        beersGreaterEBC: state.modal.beersEBCGt,
-        beersLowerEBC: state.modal.beersEBCLt,
-        lodaing: state.modal.loading,
+        beersGreaterABV: state.modal.abvGTbeers,
+        lodaingABV: state.modal.loadingABV,
         error: state.modal.error
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        apiRequestForIbuSimillarBeers_Gt: (ibu) => dispatch(actions.apiCallIbuGt(ibu))
+        apiRequestForAbvSimillarBeers_Gt: (abv) => dispatch(actions.apiCallabvGt(abv))
     }
 }
 

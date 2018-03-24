@@ -1,0 +1,9 @@
+.AbvImages {
+    @include flexbox();
+    @include flex(0 1 70%);
+    @include flex-direction(row);
+    @include align-items(center);
+    @include justify-content(center); 
+    @include align-content(center);
+    @include flex-wrap(wrap);
+}

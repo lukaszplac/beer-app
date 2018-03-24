@@ -6,6 +6,8 @@ import Beer from '../../presentational/Beer/Beer';
 import Modal from '../../containers/Modal/Modal';
 import styles from './Beers.scss';
 import BeerDetails from '../BeerDetails/BeerDetails';
+import ModalHoc from '../../../hoc/ModalHoc/ModalHoc';
+//import {Route} from 'react-router-dom';
 
 class Beers extends Component {
 
@@ -71,7 +73,7 @@ class Beers extends Component {
                 </Modal>
                 {beers}
                 {this.props.loading ? <div className={styles.Spinner}><Spinner /></div> : null}
-                {this.props.allFetched ? <div className={styles.EndLine}></div> : null}
+                {this.props.allFetched ? <div className={styles.EndLine}></div> : null}           
             </div>
         );
     }

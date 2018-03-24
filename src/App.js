@@ -14,9 +14,9 @@ class App extends Component {
     let routes  = (
       <Switch>
         <Route path='/favs' component={Favorites} />
-        <Route path='/details/:id' component={ModalHoc} />
+        <Route path='/details/:id' component={ModalHoc}/>
         <Route path='/' exact component={Beers} />
-        <Redirect to={"/"}/>
+        <Redirect to="/"/>   
       </Switch>
     );
 

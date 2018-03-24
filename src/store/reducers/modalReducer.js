@@ -1,15 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    beer: [],
-    beersABVGt: [],
-    beersABVLt: [],
-    beersIBUGt: [],
-    beersIBULt: [],
-    beersEBCGt: [],
-    beersEBCLt: [],
+    oneBeer: [],
+    abvGTbeers: [],
     error: false,
-    loading: true,
+    loadingModal: false,
+    loadingABV: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -17,26 +13,31 @@ const reducer = (state = initialState, action) => {
         case (actionTypes.ON_LOADING_MODAL): {
             return {
                 ...state,
-                loading: true
+                loadingModal: true
             }
         }
-        case (actionTypes.GET_IBU_GT):
+        case (actionTypes.GET_ABV_GT_LOADING):
             return {
                 ...state,
-                beersIBUGt: [...action.beers],
-                loading: false
+                loadingABV: true
+            }
+        case (actionTypes.GET_ABV_GT):
+            return {
+                ...state,
+                abvGTbeers: [...action.beers],
+                loadingABV: false
             }
         case (actionTypes.GET_ONE_BEER):
             return {
                 ...state,
-                beer: [...action.beer],
-                loading: false
+                oneBeer: [...action.beer],
+                loadingModal: false
             }
         case (actionTypes.FETCH_MODAL_BEERS_ERROR):
             return {
                 ...state,
                 error: true,
-                loading: false
+                loadingModal: false
             }
         default:
             return state;

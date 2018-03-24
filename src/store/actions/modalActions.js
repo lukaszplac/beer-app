@@ -8,14 +8,22 @@ export const onLoadingModal = () => {
     }
 }
 
-export const onLoadBeersIBUGt = (data) => {
+export const onLoadingBeersABVGt = (data) => {
     return {
-        type: actionTypes.GET_IBU_GT,
+        type: actionTypes.GET_ABV_GT_LOADING,
+        beers: data
+    }
+}
+
+export const onLoadBeersABVGt = (data) => {
+    return {
+        type: actionTypes.GET_ABV_GT,
         beers: data
     }
 }
 
 export const onLoadOneBeer = (data) => {
+    console.log(data);
     return {
         type: actionTypes.GET_ONE_BEER,
         beer: data
@@ -28,13 +36,13 @@ export const fetchingBeersError = () => {
     }
 }
 
-export const apiCallIbuGt = (ibu) => {
+export const apiCallabvGt = (ibu) => {
     return dispatch => {
-        dispatch(onLoadingModal());
-        let url = '/beers?ibu_gt=' + ibu; 
+        dispatch(onLoadingBeersABVGt());
+        let url = '/beers?abv_gt=' + ibu; 
         axios.get(url)
              .then(response => {
-                 response.data.length === 0 ? null : dispatch(onLoadBeersIBUGt(response.data))              
+                 response.data.length === 0 ? null : dispatch(onLoadBeersABVGt(response.data))              
              })
              .catch(error => {
                  dispatch(fetchingBeersError());

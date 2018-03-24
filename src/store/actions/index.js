@@ -4,6 +4,6 @@ export {
 } from './beerActions';
 
 export {
-    apiCallIbuGt,
+    apiCallabvGt,
     getOneBeer
 } from './modalActions'
