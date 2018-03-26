@@ -2,10 +2,10 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     oneBeer: [],
-    abvGTbeers: [],
+    beersModal: [],
     error: false,
     loadingModal: false,
-    loadingABV: false
+    loadingModalBeers: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -16,16 +16,24 @@ const reducer = (state = initialState, action) => {
                 loadingModal: true
             }
         }
-        case (actionTypes.GET_ABV_GT_LOADING):
+        case (actionTypes.GET_MODAL_BEERS_LOADING):
             return {
                 ...state,
-                loadingABV: true
+                loadingModalBeers: true
             }
-        case (actionTypes.GET_ABV_GT):
+        case (actionTypes.GET_MODAL_BEERS_ABV):
+            let beersAbv = action.beers.sort((p, n) => p.abv > n.abv).slice(0,3);
             return {
                 ...state,
-                abvGTbeers: [...action.beers],
-                loadingABV: false
+                beersModal: [...beersAbv],
+                loadingModalBeers: false
+            }
+        case (actionTypes.GET_MODAL_BEERS_IBU):
+            let beersIbu = action.beers.sort((p, n) => p.ibu > n.ibu).slice(0,3);
+            return {
+                ...state,
+                beersModal: [...beersIbu],
+                loadingModalBeers: false
             }
         case (actionTypes.GET_ONE_BEER):
             return {

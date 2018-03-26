@@ -6,8 +6,9 @@ export const ON_LOADING = "ON_LOADING";
 export const FETCHING_DONE = "FETCHING_DONE";
 
 //action types for modal part of store
-export const GET_ABV_GT = 'GET_ABV_GT';
-export const GET_ABV_GT_LOADING = 'GET_ABV_GT_LOADING';
+export const GET_MODAL_BEERS_ABV = 'GET_MODAL_BEERS_ABV';
+export const GET_MODAL_BEERS_IBU = 'GET_MODAL_BEERS_IBU';
+export const GET_MODAL_BEERS_LOADING = 'GET_MODAL_BEERS_LOADING';
 // export const GET_ABV_LT = 'GET_ABV_LT';
 
 // export const GET_IBU_GT = 'GET_IBU_GT';

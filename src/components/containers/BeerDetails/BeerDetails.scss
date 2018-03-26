@@ -33,15 +33,6 @@
                 width: 100%;
             }
         }
-        .RightPanel {
-            @include flexbox();
-            @include flex(0 1 65%);
-            @include flex-direction(column);
-            @include align-items(center);
-            @include justify-content(center); 
-            @include align-content(center);
-            @include flex-wrap(wrap);
-        }
     }
     .TextDescr {
         width: 90%;

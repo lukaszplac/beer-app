@@ -8,17 +8,25 @@ export const onLoadingModal = () => {
     }
 }
 
-export const onLoadingBeersABVGt = (data) => {
+export const onLoadingBeers = (data) => {
     return {
-        type: actionTypes.GET_ABV_GT_LOADING,
+        type: actionTypes.GET_MODAL_BEERS_LOADING,
         beers: data
     }
 }
 
-export const onLoadBeersABVGt = (data) => {
-    return {
-        type: actionTypes.GET_ABV_GT,
-        beers: data
+export const onLoadBeers = (data, measuredBy) => {
+    switch(measuredBy) {
+        case 'abv_gt':
+            return {
+                type: actionTypes.GET_MODAL_BEERS_ABV,
+                beers: data
+            }
+        default:
+            return {
+                type: actionTypes.GET_MODAL_BEERS_IBU,
+                beers: data
+            }
     }
 }
 
@@ -36,13 +44,13 @@ export const fetchingBeersError = () => {
     }
 }
 
-export const apiCallabvGt = (ibu) => {
+export const apiCallModalBeers = (measuredBy, url_param) => {
     return dispatch => {
-        dispatch(onLoadingBeersABVGt());
-        let url = '/beers?abv_gt=' + ibu; 
+        dispatch(onLoadingBeers());
+        let url = '/beers?' + url_param + '=' + measuredBy; 
         axios.get(url)
              .then(response => {
-                 response.data.length === 0 ? null : dispatch(onLoadBeersABVGt(response.data))              
+                 dispatch(onLoadBeers(response.data, url_param))              
              })
              .catch(error => {
                  dispatch(fetchingBeersError());

@@ -3,30 +3,40 @@ import AuxComp from '../../../hoc/AuxComp/AuxComp';
 import styles from './BeerDetails.scss';
 import MainDescription from '../../presentational/MainDescription/MainDescription';
 import BestFood from '../../presentational/BestFood/BestFood';
+import RightPanelModal from '../../presentational/RightPanelModal/RightPanelModal';
+import Spinner from '../../presentational/Spinner/Spinner';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
+import * as orderTypes from './beerOrder'; 
 
 
 class BeerDetails extends Component {
 
+    state = {
+        orderType: null
+    }
+
     componentDidMount() {
-        let abv = Math.round(this.props.beer.abv);
-        this.props.areAllFetched ? null : this.props.apiRequestForAbvSimillarBeers_Gt(abv);
+        let abv = Math.ceil(this.props.beer.abv);
+        this.props.areAllFetched ? null : this.props.apiRequestForSimillarBeers(abv, orderTypes.ABV_GT);
         //this.props.beersGreaterABV.forEach((b) => console.log(b.abv));
+        this.setState({
+            orderType: orderTypes.ABV_GT
+        });
     }
 
     // requestForSimilarBeersFromLocalStore() {
 
     // }
+    onChangeOrderByIbu() {
+        this.props.areAllFetched ? null : this.props.apiRequestForSimillarBeers(this.props.beer.ibu, orderTypes.IBV_LT);
+        //this.props.beersGreaterIBU.forEach((b) => console.log(b.ibu));
+        this.setState({
+            orderType: orderTypes.IBV_LT
+        });
+    }
 
     render () {
-        let abvGreaterBeers = this.props.beersGreaterABV.sort((p, n) => p.abv > n.abv)
-                                                        .slice(0,3)
-                                                        .map((beer) => (
-                                                            <AbvBeers beerImage={beer.image_url} 
-                                                                      beerName={beer.name}
-                                                                      abv={beer.abv}/>                                                      
-                                                        ));
 
         let bestServedWith = this.props.beer.food_pairing.map((food, index) => (
             <p key={index}>{food}</p>
@@ -39,11 +49,11 @@ class BeerDetails extends Component {
                         <div className={styles.MainImage}>
                             <div style={{width: '30%'}}><img src={this.props.beer.image_url} /></div>
                         </div>
-                        <div className={styles.RightPanel}>
-                            <div>
-                            {this.state.loadingABV ? <Spinner /> : {abvGreaterBeers}}
-                            </div>
-                        </div>
+                        {this.props.loading ? <Spinner /> : <RightPanelModal
+                                                                    orderType={this.state.orderType}
+                                                                    beers={this.props.rightPanelBeers}
+                                                                    onChangeBeers={() => this.onChangeOrderByIbu()} 
+                                                                    />}
                     </div>
                     <div className={styles.TextDescr}>
                         <MainDescription
@@ -65,15 +75,15 @@ class BeerDetails extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        beersGreaterABV: state.modal.abvGTbeers,
-        lodaingABV: state.modal.loadingABV,
+        rightPanelBeers: state.modal.beersModal,
+        loading: state.modal.loadingModalBeers,
         error: state.modal.error
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        apiRequestForAbvSimillarBeers_Gt: (abv) => dispatch(actions.apiCallabvGt(abv))
+        apiRequestForSimillarBeers: (measuredBy, url_param) => dispatch(actions.apiCallModalBeers(measuredBy, url_param)),
     }
 }
 
