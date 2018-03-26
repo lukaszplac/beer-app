@@ -22,14 +22,15 @@ const reducer = (state = initialState, action) => {
                 loadingModalBeers: true
             }
         case (actionTypes.GET_MODAL_BEERS_ABV):
-            let beersAbv = action.beers.sort((p, n) => p.abv > n.abv).slice(0,3);
+            let beersAbv = action.beers.filter((beer) => beer.abv !== null).sort((p, n) => p.abv - n.abv).slice(0,3);
             return {
                 ...state,
                 beersModal: [...beersAbv],
                 loadingModalBeers: false
             }
         case (actionTypes.GET_MODAL_BEERS_IBU):
-            let beersIbu = action.beers.sort((p, n) => p.ibu > n.ibu).slice(0,3);
+            let sorted = action.beers.filter((beer) => beer.ibu !== null).sort((p, n) => p.ibu - n.ibu);
+            let beersIbu = sorted.slice(-3);
             return {
                 ...state,
                 beersModal: [...beersIbu],

@@ -2,11 +2,42 @@
 
 .RightPanelModal {
     @include flexbox();
-    @include flex(0 1 60%);
+    @include flex(0 1 70%);
     @include flex-direction(column);
     @include align-items(center);
     @include justify-content(center); 
     @include align-content(center);
     @include flex-wrap(wrap);
     text-align: center;
+    @media only screen and (max-width : 768px) {
+        @include flex(0 1 100%);
+    }
+    h4 {
+        margin: 5px;
+        color: rgb(115, 45, 128);
+        @media only screen and (max-width : 768px) {
+            text-align: center;
+            margin-top: 20px;
+        }
+    }
+
+    .Buttons {
+        @include flexbox();
+        @include flex-direction(row);
+        margin: 5px 0 5px 0;
+        button {
+            text-transform: uppercase;
+            padding: 5px 15px 5px 15px;
+            margin: 5px;
+            background-color: rgb(115, 45, 128);
+            color: white;
+            //border-radius: 5px;
+            border-style: none;
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(115, 45, 128, .5);
+            }
+
+        }
+    }
 }

@@ -6,23 +6,22 @@ import Beer from '../../presentational/Beer/Beer';
 import Modal from '../../containers/Modal/Modal';
 import styles from './Beers.scss';
 import BeerDetails from '../BeerDetails/BeerDetails';
-import ModalHoc from '../../../hoc/ModalHoc/ModalHoc';
-//import {Route} from 'react-router-dom';
 
 class Beers extends Component {
 
     state = {
         pageNumber: 1,
         beerClicked: false,
-        beerToShow: 0
+        beerToShow: null
     }
+
+    //just giving the event handler a refernece to be able to remove it in the future when modal appears
+    scrollHandler = () => this.scrollEventHandler();
 
     componentDidMount() {
         if (!this.props.initialized) this.props.initialRequest(1);
-        window.addEventListener("scroll", () => this.scrollEventHandler());
-        console.log('BEERS did mount');
+        window.addEventListener("scroll", this.scrollHandler );
     }
-
 
     scrollEventHandler() {
         var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
@@ -42,6 +41,8 @@ class Beers extends Component {
             beerClicked: true,
             beerToShow: beerId-1
         })
+        //remove listener to prevent scrolling end fetching itmes when modal exist
+        window.removeEventListener('scroll', this.scrollHandler);
     }
 
     onModalClosed() {
@@ -49,6 +50,8 @@ class Beers extends Component {
             beerClicked: false,
             beerToShow: null
         })
+        //registering listener back againg when modal goes off
+        window.addEventListener("scroll", this.scrollHandler);
     }
 
     render() {
@@ -67,9 +70,9 @@ class Beers extends Component {
                 <Modal 
                     show = {this.state.beerClicked}
                     modalClosed = {() => this.onModalClosed()}>
-                        {this.state.beerClicked ? <BeerDetails 
-                                                    beer={this.props.beers[this.state.beerToShow]}
-                                                    areAllFetched={this.props.allFetched}/> : null}
+                         {this.state.beerToShow != null ? <BeerDetails
+                                                            beer={this.props.beers[this.state.beerToShow]}
+                                                            areAllFetched={this.props.allFetched}/> : null}
                 </Modal>
                 {beers}
                 {this.props.loading ? <div className={styles.Spinner}><Spinner /></div> : null}

@@ -7,7 +7,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: #703B09;
+	background-color: rgb(92, 43, 100);
 	padding: 0 20px;
 	box-sizing: border-box;
     z-index: 90;
@@ -15,7 +15,7 @@
         height: 100%;
     }
     .DesktopOnly {
-        @media (max-width: 499px) {
+        @media (max-width: 767px) {
             display: none;
         }
     }

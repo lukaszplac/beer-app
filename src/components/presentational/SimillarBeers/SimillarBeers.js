@@ -1,15 +1,20 @@
 import React from 'react';
 import styles from './SimillarBeers.scss';
+import * as orderTypes from '../../containers/BeerDetails/beerOrder';
+
 
 const abvBeers = (props) => {
-    let simillarBeers = props.beers.map((beer) => (
-                                        <div key={beer.id} className={styles.Image}>           
-                                                <img src={beer.image_url} />
+    let simillarBeers = props.beers.map((beer) => {
+                                        let info = props.type === orderTypes.ABV_GT ? <p>ABV:{beer.abv}</p> : <p>IBU:{beer.ibu}</p>  
+                                        return (
+                                        <div key={beer.id} 
+                                             className={styles.Image}
+                                             onClick={(id) => props.onBeerClicked(beer.id)}>           
+                                                <img src={beer.image_url} alt={"simmilar beer image" + beer.id}/>
                                                 <p>{beer.name}</p>
-                                                <p>{beer.abv}</p>
-                                                
+                                                {info}
                                         </div>                                                      
-                                     ));
+                                        )});
     return (
         <div className={styles.SimillarBeers}>
             {simillarBeers.length === 0 ? <h4>Seems like there is nothing more to offer. You choose the best of the best. Cheers :)</h4> : null}

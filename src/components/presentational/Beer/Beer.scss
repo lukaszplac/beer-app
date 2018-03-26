@@ -3,7 +3,7 @@
 .Beer {
     margin: 10px;
     padding: 10px 5px 10px 5px;
-    @include flex(0 0 25%);
+    @include flex(0 0 30%);
     @include flexbox();
     @include flex-direction(column);
     @include align-items(center);
@@ -11,13 +11,28 @@
     @include align-content(center);
     border-radius: 5px;
     background-color: lightgray;
+    box-sizing: border-box;
+    border: 2px solid lightgray;
+    @media only screen and (max-width : 768px) {
+        @include flex-direction(row);
+        @include justify-content(space-around);
+        @include flex(0 0 90%);
+    }
+    .BeerBackdrop {
+        visibility: hidden;
+    }
     &:hover {
         cursor: pointer;
+        border: 2px solid rgb(115, 45, 128);
     }
     img {
         @include flex(0 1 60%);
         max-width: 30%;
         height: auto;
+        @media only screen and (max-width : 768px) {
+            max-width: 10%;
+            @include flex(0 1 30%);
+        }
     }
     .TextContainer {
         @include flex(0 1 30%);
@@ -27,12 +42,18 @@
         @include justify-content(center);
         @include align-content(center);
         margin: 10px 0 10px 0;
+        @media only screen and (max-width : 768px) {
+            @include flex(0 1 70%);
+        }
     }
     .Name{    
         font-size: 18px;
         color: rgb(115, 45, 128);
         font-weight: bold;
         padding: 10px 10px 2px 10px;
+        @media only screen and (max-width : 768px) {
+            font-size: 16px;
+        }
     }
     .Tagline {
         font-size: 12px;

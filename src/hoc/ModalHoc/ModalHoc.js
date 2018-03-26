@@ -7,7 +7,6 @@ import AuxComp from '../AuxComp/AuxComp';
 import Modal from '../../components/containers/Modal/Modal';
 import BeerDetails from '../../components/containers/BeerDetails/BeerDetails';
 import Spinner from '../../components/presentational/Spinner/Spinner';
-import {Redirect} from 'react-router-dom';
 
 class ModalHoc extends Component {
     
@@ -15,11 +14,10 @@ class ModalHoc extends Component {
         show: false,
     }
 
-
-    componentWillMount () {
-        this.setState({
-            show: true
-        })
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.beer !== this.props.beer) {
+            this.onShow();
+        }
     }
 
     componentDidMount() {
@@ -30,7 +28,15 @@ class ModalHoc extends Component {
     onModalClosed() {
         this.setState({
             show: false
-        })
+        });
+        //redirection timed out just to show some animation before component dissapear
+        setTimeout(() => this.props.history.push("/"), 400);
+    }
+
+    onShow() {
+        this.setState({
+            show: true
+        });
     }
 
     render() {
@@ -38,11 +44,8 @@ class ModalHoc extends Component {
         if (!this.props.error) {
             beer = this.props.beer[0];
         }
-        console.log(this.props.beer);
-        console.log(beer);
         return(
             <AuxComp>
-                {this.state.show ? null : <Redirect to="/"/>}
                 <Modal 
                     show = {this.state.show}
                     modalClosed = {() => this.onModalClosed()}>
@@ -50,7 +53,7 @@ class ModalHoc extends Component {
                             beer={beer}
                             areAllFetched={false}/> : null}
                     {this.props.loading ? <Spinner /> : null}
-                </Modal>  
+                </Modal>
             </AuxComp>
         );
     }

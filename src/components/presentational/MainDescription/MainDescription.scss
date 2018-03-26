@@ -8,15 +8,30 @@
     @include justify-content(flex-start); 
     @include align-content(flex-start);
     @include flex-wrap(nowrap);
+    @media only screen and (max-width : 768px) {
+        @include flex(0 1 100%);
+        @include align-items(center);
+        @include justify-content(center); 
+        @include align-content(center);
+    }
     h4 {
         margin: 5px;
         color: rgb(115, 45, 128);
     }
     p {
         margin: 5px;
-        font-size: 14px;
+        font-size: 13px;
         span {
             padding-left: 5px;
+            &:first-child {
+                padding-left: 0;
+            }
+        }
+    }
+
+    h4, p {
+        @media only screen and (max-width : 768px) {
+            text-align: center;
         }
     }
 }

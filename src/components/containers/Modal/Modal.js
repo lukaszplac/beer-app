@@ -10,7 +10,7 @@ class Modal extends Component {
             <AuxComp>
                 <Backdrop show={this.props.show}
                         clicked={this.props.modalClosed}/>
-                <div 
+                <div tabIndex="1"
                     className={styles.Modal}
                     style={{
                         transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',

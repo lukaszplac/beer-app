@@ -13,56 +13,82 @@ import * as orderTypes from './beerOrder';
 class BeerDetails extends Component {
 
     state = {
-        orderType: null
+        orderType: null,
+        otherBeerClicked: false
     }
 
     componentDidMount() {
-        let abv = Math.ceil(this.props.beer.abv);
-        this.props.areAllFetched ? null : this.props.apiRequestForSimillarBeers(abv, orderTypes.ABV_GT);
-        //this.props.beersGreaterABV.forEach((b) => console.log(b.abv));
-        this.setState({
-            orderType: orderTypes.ABV_GT
-        });
+        this.onChangeOrderByAbv(this.props.beer);
+    }
+
+    //used to change 3 x modal beers for new clicked beer if component did update, comparing prev props with new one just to be sure
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.otherBeer !== this.props.otherBeer)
+            this.onChangeOrderByAbv(this.props.otherBeer[0]);
     }
 
     // requestForSimilarBeersFromLocalStore() {
 
     // }
-    onChangeOrderByIbu() {
-        this.props.areAllFetched ? null : this.props.apiRequestForSimillarBeers(this.props.beer.ibu, orderTypes.IBV_LT);
+    onChangeOrderByAbv(currentBeer) {
+        let abv = Math.ceil(currentBeer.abv);
+        this.props.apiRequestForSimillarBeers(abv, orderTypes.ABV_GT);
+        //this.props.beersGreaterABV.forEach((b) => console.log(b.abv));
+        this.setState({
+            orderType: orderTypes.ABV_GT
+        });
+    }
+    onChangeOrderByIbu(currentBeer) {
+        let ibu = Math.floor(currentBeer.ibu);
+        this.props.apiRequestForSimillarBeers(ibu, orderTypes.IBV_LT);
         //this.props.beersGreaterIBU.forEach((b) => console.log(b.ibu));
         this.setState({
             orderType: orderTypes.IBV_LT
         });
     }
 
-    render () {
+    onBeerClicked(id) {
+        this.props.onBeerClicked(id);
+        this.setState({
+            otherBeerClicked: true
+        })
+    }
 
-        let bestServedWith = this.props.beer.food_pairing.map((food, index) => (
+    render () {
+        let currentBeer = this.props.beer;
+
+        if (this.state.otherBeerClicked && !this.props.loadingModal) {
+            currentBeer = this.props.otherBeer[0];
+        }
+
+        let bestServedWith = currentBeer.food_pairing.map((food, index) => (
             <p key={index}>{food}</p>
         ));
 
         return(
+            this.props.loadingModal ? <Spinner /> :
             <AuxComp>
                 <div className={styles.BeerDetails}>
                     <div className={styles.Pictures}>
                         <div className={styles.MainImage}>
-                            <div style={{width: '30%'}}><img src={this.props.beer.image_url} /></div>
+                            <div style={{width: '30%'}}><img src={currentBeer.image_url} alt="main modal"/></div>
                         </div>
                         {this.props.loading ? <Spinner /> : <RightPanelModal
                                                                     orderType={this.state.orderType}
                                                                     beers={this.props.rightPanelBeers}
-                                                                    onChangeBeers={() => this.onChangeOrderByIbu()} 
+                                                                    onChangeIbu={() => this.onChangeOrderByIbu(currentBeer)}
+                                                                    onChangeAbv={() => this.onChangeOrderByAbv(currentBeer)}
+                                                                    onBeerClicked={(id) => this.onBeerClicked(id)} 
                                                                     />}
                     </div>
-                    <div className={styles.TextDescr}>
+                    <div className={styles.TextDescr} >
                         <MainDescription
-                                name = {this.props.beer.name}
-                                tagline = {this.props.beer.tagline}
-                                description = {this.props.beer.description}
-                                ibu = {this.props.beer.ibu}
-                                abv = {this.props.beer.abv}
-                                ebc = {this.props.beer.ebc} />
+                                name = {currentBeer.name}
+                                tagline = {currentBeer.tagline}
+                                description = {currentBeer.description}
+                                ibu = {currentBeer.ibu}
+                                abv = {currentBeer.abv}
+                                ebc = {currentBeer.ebc} />
                         <BestFood>
                                 {bestServedWith}
                         </BestFood>
@@ -77,13 +103,16 @@ const mapStateToProps = (state) => {
     return {
         rightPanelBeers: state.modal.beersModal,
         loading: state.modal.loadingModalBeers,
-        error: state.modal.error
+        loadingModal: state.modal.loadingModal,
+        error: state.modal.error,
+        otherBeer: state.modal.oneBeer
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         apiRequestForSimillarBeers: (measuredBy, url_param) => dispatch(actions.apiCallModalBeers(measuredBy, url_param)),
+        onBeerClicked: (id) => dispatch(actions.getOneBeer(id))
     }
 }
 

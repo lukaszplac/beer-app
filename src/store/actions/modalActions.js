@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-instances';
+import * as orderTypes from '../../components/containers/BeerDetails/beerOrder';
 
 
 export const onLoadingModal = () => {
@@ -17,7 +18,7 @@ export const onLoadingBeers = (data) => {
 
 export const onLoadBeers = (data, measuredBy) => {
     switch(measuredBy) {
-        case 'abv_gt':
+        case orderTypes.ABV_GT:
             return {
                 type: actionTypes.GET_MODAL_BEERS_ABV,
                 beers: data
@@ -31,7 +32,6 @@ export const onLoadBeers = (data, measuredBy) => {
 }
 
 export const onLoadOneBeer = (data) => {
-    console.log(data);
     return {
         type: actionTypes.GET_ONE_BEER,
         beer: data
