@@ -9,14 +9,10 @@ export const FETCHING_DONE = "FETCHING_DONE";
 export const GET_MODAL_BEERS_ABV = 'GET_MODAL_BEERS_ABV';
 export const GET_MODAL_BEERS_IBU = 'GET_MODAL_BEERS_IBU';
 export const GET_MODAL_BEERS_LOADING = 'GET_MODAL_BEERS_LOADING';
-// export const GET_ABV_LT = 'GET_ABV_LT';
-
-// export const GET_IBU_GT = 'GET_IBU_GT';
-// export const GET_IBU_LT = 'GET_IBU_LT';
-
-// export const GET_EBC_GT = 'GET_EBC_GT';
-// export const GET_EBC_LT = 'GET_EBC_LT';
-
 export const ON_LOADING_MODAL = 'ON_LOADING_MODAL';
 export const FETCH_MODAL_BEERS_ERROR = 'FETCH_MODAL_BEERS_ERROR';
 export const GET_ONE_BEER = 'GET_ONE_BEER';
+
+//favorites action types
+export const ADD_FAVORITE = "ADD_FAVORITE";
+export const GET_FAVORITES = "GET_FAVORITES"
