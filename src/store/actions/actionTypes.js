@@ -15,4 +15,6 @@ export const GET_ONE_BEER = 'GET_ONE_BEER';
 
 //favorites action types
 export const ADD_FAVORITE = "ADD_FAVORITE";
+export const REM_FAVORITE = "REM_FAVORITE";
 export const GET_FAVORITES = "GET_FAVORITES"
+export const ON_DB_ERROR = "ON_DB_ERROR";

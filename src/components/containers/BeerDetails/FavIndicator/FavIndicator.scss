@@ -1,0 +1,13 @@
+.FavIndicator {
+    padding: 10px;
+    font-size: 20px;
+    color: lightGray;
+    &:hover {
+        color: red;
+        cursor: pointer;
+    }
+}
+
+.FavIndicatorActive {
+    color: red;
+}

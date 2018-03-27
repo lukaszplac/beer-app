@@ -6,7 +6,7 @@ const instance = axios.create({
 
 
 export const fb_instance = axios.create({
-    baseUrl: 'https://beer-b5c66.firebaseio.com/'
+    baseURL: 'https://beer-app-db.firebaseio.com/'
 });
 
 export default instance;

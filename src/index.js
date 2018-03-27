@@ -10,12 +10,14 @@ import registerServiceWorker from './registerServiceWorker';
 
 import beerReducer from './store/reducers/beerReducer';
 import modalReducer from './store/reducers/modalReducer';
+import favReducer from './store/reducers/favReducer';
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer = combineReducers({
     beer: beerReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    favs: favReducer
 })
 
 const store = createStore(

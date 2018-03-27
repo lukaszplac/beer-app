@@ -5,20 +5,24 @@ import MainDescription from '../../presentational/MainDescription/MainDescriptio
 import BestFood from '../../presentational/BestFood/BestFood';
 import RightPanelModal from '../../presentational/RightPanelModal/RightPanelModal';
 import Spinner from '../../presentational/Spinner/Spinner';
+import FavIndicator from './FavIndicator/FavIndicator';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
-import * as orderTypes from './beerOrder'; 
+import * as orderTypes from './beerOrder';
 
 
 class BeerDetails extends Component {
 
     state = {
         orderType: null,
-        otherBeerClicked: false
+        otherBeerClicked: false,
+        isFavorite: false
     }
 
     componentDidMount() {
         this.onChangeOrderByAbv(this.props.beer);
+        this.props.getFavorites();
+
     }
 
     //used to change 3 x modal beers for new clicked beer if component did update, comparing prev props with new one just to be sure
@@ -54,6 +58,18 @@ class BeerDetails extends Component {
         })
     }
 
+    removeFavorite(id) {
+        let docId = "";
+        console.log(id);
+        for (let key in this.props.favBeers) {
+            if (this.props.favBeers.hasOwnProperty(key)) {
+                if (this.props.favBeers[key].id === id) docId=key;
+            }
+        }
+        if (docId !== "") this.props.removeFavorite(docId);
+        else return;
+    }
+
     render () {
         let currentBeer = this.props.beer;
 
@@ -61,6 +77,14 @@ class BeerDetails extends Component {
             currentBeer = this.props.otherBeer[0];
         }
 
+        let favBeers = [];
+
+        favBeers = Object.values(this.props.favBeers).map(obId => obId.id);
+
+        console.log(favBeers);
+
+        let isFavorite = favBeers.includes(currentBeer.id);
+        
         let bestServedWith = currentBeer.food_pairing.map((food, index) => (
             <p key={index}>{food}</p>
         ));
@@ -73,6 +97,9 @@ class BeerDetails extends Component {
                     <div className={styles.Pictures}>
                         <div className={styles.MainImage}>
                             <div style={{width: '30%'}}><img src={currentBeer.image_url} alt="main modal"/></div>
+                            <FavIndicator onActivateFav={(id) => this.props.addFavorite(currentBeer.id)}
+                                          onDeactivateFav={(id) => this.removeFavorite(currentBeer.id)}
+                                          isFavorite={isFavorite}/>
                         </div>
                         {this.props.loading ? <Spinner /> : <RightPanelModal
                                                                     orderType={this.state.orderType}
@@ -106,14 +133,18 @@ const mapStateToProps = (state) => {
         loading: state.modal.loadingModalBeers,
         loadingModal: state.modal.loadingModal,
         error: state.modal.error,
-        otherBeer: state.modal.oneBeer
+        otherBeer: state.modal.oneBeer,
+        favBeers: state.favs.favBeers
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         apiRequestForSimillarBeers: (measuredBy, url_param) => dispatch(actions.apiCallModalBeers(measuredBy, url_param)),
-        onBeerClicked: (id) => dispatch(actions.getOneBeer(id))
+        onBeerClicked: (id) => dispatch(actions.getOneBeer(id)),
+        addFavorite: (id) => dispatch(actions.addFavorite(id)),
+        removeFavorite: (docId) => dispatch(actions.removeFavorite(docId)),
+        getFavorites: () => dispatch(actions.getFavorites())
     }
 }
 
