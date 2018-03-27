@@ -19,10 +19,10 @@
         padding: 5px;
         box-sizing: border-box;
         border: 2px solid lightgray;
+        border-radius: 5px;
         &:hover {
             cursor: pointer;
             border: 2px solid  rgb(115, 45, 128);
-            border-radius: 5px;
         }
         @media only screen and (max-width : 768px) {
             @include flex(0 1 90%);

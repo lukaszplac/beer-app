@@ -17,4 +17,17 @@
         width: 750px;
         left: calc(50% - 375px);
     }
+    .Close {
+        position: absolute;
+        line-height: 150%;
+        left: 5px;
+        top: 5px;
+        background-color: rgb(115, 45, 128);
+        color: white;
+        border-style: none;
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(115, 45, 128, .5);
+        }
+    }
 }

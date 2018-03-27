@@ -67,6 +67,7 @@ class BeerDetails extends Component {
 
         return(
             this.props.loadingModal ? <Spinner /> :
+            this.props.error ? <p style={{textAlign: 'center'}}>Beers can`t be shown</p> :
             <AuxComp>
                 <div className={styles.BeerDetails}>
                     <div className={styles.Pictures}>

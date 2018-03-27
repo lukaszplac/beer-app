@@ -11,8 +11,10 @@ const rightPanelModal = (props) => {
             {info}      
             <SimillarBeers beers={props.beers} type={props.orderType} onBeerClicked={props.onBeerClicked}/>
             <div className={styles.Buttons}>
-                <button onClick={props.onChangeIbu}>Lower ibu?</button>
-                <button onClick={props.onChangeAbv}>More abv?</button>
+                <button onClick={props.onChangeIbu} 
+                        disabled={props.orderType === orderTypes.IBV_LT ? "disabled" : null}>Lower ibu?</button>
+                <button onClick={props.onChangeAbv}
+                        disabled={props.orderType === orderTypes.ABV_GT ? "disabled" : null}>More abv?</button>
             </div>
         </div>
     );

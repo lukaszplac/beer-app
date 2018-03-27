@@ -6,6 +6,8 @@ import Beer from '../../presentational/Beer/Beer';
 import Modal from '../../containers/Modal/Modal';
 import styles from './Beers.scss';
 import BeerDetails from '../BeerDetails/BeerDetails';
+import axios from '../../../axios-instances';
+import withErrorHandler from '../../../hoc/withErrorHandler';
 
 class Beers extends Component {
 
@@ -17,6 +19,14 @@ class Beers extends Component {
 
     //just giving the event handler a refernece to be able to remove it in the future when modal appears
     scrollHandler = () => this.scrollEventHandler();
+
+    shouldComponentUpdate(prevProps, prevState) {
+        if ((prevProps.beers !== this.props.beers) || 
+            (prevState.beerClicked !== this.state.beerClicked) ||
+            (prevState.beerToShow !== this.state.beerToShow))
+            return true;
+        else return false;
+    }
 
     componentDidMount() {
         if (!this.props.initialized) this.props.initialRequest(1);
@@ -64,7 +74,9 @@ class Beers extends Component {
                     image_url={beer.image_url} 
                     clicked={ () => this.onBeerClicked(beer.id) }/>
             ));
-        } 
+        } else {
+            beers = <p style={{textAlign: 'center'}}>Beers can`t be shown</p>
+        }
         return (
             <div className={styles.Beers}>
                 <Modal 
@@ -76,7 +88,7 @@ class Beers extends Component {
                 </Modal>
                 {beers}
                 {this.props.loading ? <div className={styles.Spinner}><Spinner /></div> : null}
-                {this.props.allFetched ? <div className={styles.EndLine}></div> : null}           
+                {this.props.allFetched ? <div className={styles.EndLine}></div> : null}
             </div>
         );
     }
@@ -100,4 +112,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Beers);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Beers, axios));

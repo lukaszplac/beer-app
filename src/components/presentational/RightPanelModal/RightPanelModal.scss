@@ -31,13 +31,17 @@
             margin: 5px;
             background-color: rgb(115, 45, 128);
             color: white;
-            //border-radius: 5px;
             border-style: none;
             &:hover {
                 cursor: pointer;
                 background-color: rgba(115, 45, 128, .5);
             }
-
+            &:disabled {
+                cursor: not-allowed;
+                &:hover {
+                    background-color: rgb(115, 45, 128);
+                }
+            }
         }
     }
 }
