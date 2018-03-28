@@ -1,21 +1,26 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    favBeers: [],
+    favBeers: {},
     error: false
 }
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.ADD_FAVORITE:
+            let newBeer = { };
+            newBeer[action.docId] = {id: action.beerId};
             return {
                 ...state,
-                favBeers: [...state.favBeers, action.beerId],
+                favBeers: {...state.favBeers, ...newBeer},
                 error: false
             };
         case actionTypes.REM_FAVORITE:
+            let favsCopy = {...state.favBeers};
+            delete favsCopy[action.docId];
             return {
                 ...state,
+                favBeers: {...favsCopy},
                 error: false
             };
         case actionTypes.GET_FAVORITES:

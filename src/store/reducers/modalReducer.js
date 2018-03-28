@@ -13,20 +13,23 @@ const reducer = (state = initialState, action) => {
         case (actionTypes.ON_LOADING_MODAL): {
             return {
                 ...state,
-                loadingModal: true
+                loadingModal: true,
+                error: false
             }
         }
         case (actionTypes.GET_MODAL_BEERS_LOADING):
             return {
                 ...state,
-                loadingModalBeers: true
+                loadingModalBeers: true,
+                error: false
             }
         case (actionTypes.GET_MODAL_BEERS_ABV):
             let beersAbv = action.beers.filter((beer) => beer.abv !== null).sort((p, n) => p.abv - n.abv).slice(0,3);
             return {
                 ...state,
                 beersModal: [...beersAbv],
-                loadingModalBeers: false
+                loadingModalBeers: false,
+                error: false
             }
         case (actionTypes.GET_MODAL_BEERS_IBU):
             let sorted = action.beers.filter((beer) => beer.ibu !== null).sort((p, n) => p.ibu - n.ibu);
@@ -34,13 +37,15 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 beersModal: [...beersIbu],
-                loadingModalBeers: false
+                loadingModalBeers: false,
+                error: false
             }
         case (actionTypes.GET_ONE_BEER):
             return {
                 ...state,
                 oneBeer: [...action.beer],
-                loadingModal: false
+                loadingModal: false,
+                error: false
             }
         case (actionTypes.FETCH_MODAL_BEERS_ERROR):
             return {

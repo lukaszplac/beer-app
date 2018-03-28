@@ -15,14 +15,12 @@ class BeerDetails extends Component {
 
     state = {
         orderType: null,
-        otherBeerClicked: false,
-        isFavorite: false
+        otherBeerClicked: false
     }
 
     componentDidMount() {
         this.onChangeOrderByAbv(this.props.beer);
         this.props.getFavorites();
-
     }
 
     //used to change 3 x modal beers for new clicked beer if component did update, comparing prev props with new one just to be sure
@@ -31,21 +29,17 @@ class BeerDetails extends Component {
             this.onChangeOrderByAbv(this.props.otherBeer[0]);
     }
 
-    // requestForSimilarBeersFromLocalStore() {
-
-    // }
     onChangeOrderByAbv(currentBeer) {
         let abv = Math.ceil(currentBeer.abv);
         this.props.apiRequestForSimillarBeers(abv, orderTypes.ABV_GT);
-        //this.props.beersGreaterABV.forEach((b) => console.log(b.abv));
         this.setState({
             orderType: orderTypes.ABV_GT
         });
     }
+
     onChangeOrderByIbu(currentBeer) {
         let ibu = Math.floor(currentBeer.ibu);
         this.props.apiRequestForSimillarBeers(ibu, orderTypes.IBV_LT);
-        //this.props.beersGreaterIBU.forEach((b) => console.log(b.ibu));
         this.setState({
             orderType: orderTypes.IBV_LT
         });
@@ -60,35 +54,31 @@ class BeerDetails extends Component {
 
     removeFavorite(id) {
         let docId = "";
-        console.log(id);
         for (let key in this.props.favBeers) {
             if (this.props.favBeers.hasOwnProperty(key)) {
                 if (this.props.favBeers[key].id === id) docId=key;
             }
         }
         if (docId !== "") this.props.removeFavorite(docId);
-        else return;
+    }
+
+    addFavorite(id) {
+        this.props.addFavorite(id);
     }
 
     render () {
         let currentBeer = this.props.beer;
+        let bestServedWith = null;
+        if (!this.props.error) {
 
-        if (this.state.otherBeerClicked && !this.props.loadingModal) {
-            currentBeer = this.props.otherBeer[0];
+            if (this.state.otherBeerClicked && !this.props.loadingModal) {
+                currentBeer = this.props.otherBeer[0];
+            }
+            
+            bestServedWith = currentBeer.food_pairing.map((food, index) => (
+                <p key={index}>{food}</p>
+            ));
         }
-
-        let favBeers = [];
-
-        favBeers = Object.values(this.props.favBeers).map(obId => obId.id);
-
-        console.log(favBeers);
-
-        let isFavorite = favBeers.includes(currentBeer.id);
-        
-        let bestServedWith = currentBeer.food_pairing.map((food, index) => (
-            <p key={index}>{food}</p>
-        ));
-
         return(
             this.props.loadingModal ? <Spinner /> :
             this.props.error ? <p style={{textAlign: 'center'}}>Beers can`t be shown</p> :
@@ -97,9 +87,10 @@ class BeerDetails extends Component {
                     <div className={styles.Pictures}>
                         <div className={styles.MainImage}>
                             <div style={{width: '30%'}}><img src={currentBeer.image_url} alt="main modal"/></div>
-                            <FavIndicator onActivateFav={(id) => this.props.addFavorite(currentBeer.id)}
+                            <FavIndicator onActivateFav={(id) => this.addFavorite(currentBeer.id)}
                                           onDeactivateFav={(id) => this.removeFavorite(currentBeer.id)}
-                                          isFavorite={isFavorite}/>
+                                          id={currentBeer.id}
+                                          favBeers={this.props.favBeers}/>
                         </div>
                         {this.props.loading ? <Spinner /> : <RightPanelModal
                                                                     orderType={this.state.orderType}

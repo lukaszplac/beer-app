@@ -5,7 +5,8 @@ const initialState = {
     error: false,
     loading: true,
     allFetched: false,
-    initialized: false
+    initialized: false,
+    page: 1
 }
 
 const reducer = (state = initialState, action) => {
@@ -13,21 +14,25 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ON_LOADING:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: false
             }
         case actionTypes.SET_FIRST_BEERS:
             return {
                 ...state,
                 beers: [...action.beers],
                 initialized: true,
-                loading: false
+                loading: false,
+                error: false,
+                page: state.page + 1
             }
         case actionTypes.SET_MORE_BEERS:   
             return {
                 ...state,
                 error: false,
                 beers: [...state.beers,...action.beers],
-                loading: false
+                loading: false,
+                page: state.page + 1
             }
         case actionTypes.FETCHING_ERROR:
             return {
@@ -39,7 +44,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 allFetched: true,
-                loading: false
+                loading: false,
+                error: false
             }
         default:
             return state;

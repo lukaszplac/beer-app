@@ -2,16 +2,18 @@ import * as actionTypes from '../actions/actionTypes';
 import {fb_instance as axios} from '../../axios-instances';
 
 
-export const onAddFavoriteBeer = (beerId) => {
+export const onAddFavoriteBeer = (docName, beerId) => {
     return {
         type: actionTypes.ADD_FAVORITE,
-        beerId: beerId
+        beerId: beerId,
+        docId: docName
     }
 }
 
-export const onRemoveFavoriteBeer = () => {
+export const onRemoveFavoriteBeer = (docId) => {
     return {
-        type: actionTypes.REM_FAVORITE
+        type: actionTypes.REM_FAVORITE,
+        docId: docId
     }
 }
 
@@ -35,7 +37,7 @@ export const addFavorite = (beerId, uderId) => {
     return dispatch => {
         axios.post('/favBeers.json', data )
                    .then(response => {
-                       dispatch(onAddFavoriteBeer(beerId))
+                       dispatch(onAddFavoriteBeer(response.data.name, beerId))
                    })
                    .catch(error => {
                        dispatch(onDatabaseCallError(error))
@@ -43,11 +45,11 @@ export const addFavorite = (beerId, uderId) => {
     }
 }
 
-export const removeFavorite = (docId) => {
+export const removeFavorite = (docId, beerId) => {
     return dispatch => {
         axios.delete('/favBeers/'+docId+'.json')
                    .then(response => {
-                       dispatch(onRemoveFavoriteBeer())
+                       dispatch(onRemoveFavoriteBeer(docId))
                    })
                    .catch(error => {
                        dispatch(onDatabaseCallError(error))

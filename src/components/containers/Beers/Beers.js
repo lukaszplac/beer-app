@@ -12,7 +12,6 @@ import withErrorHandler from '../../../hoc/withErrorHandler';
 class Beers extends Component {
 
     state = {
-        pageNumber: 1,
         beerClicked: false,
         beerToShow: null
     }
@@ -20,29 +19,26 @@ class Beers extends Component {
     //just giving the event handler a refernece to be able to remove it in the future when modal appears
     scrollHandler = () => this.scrollEventHandler();
 
-    shouldComponentUpdate(prevProps, prevState) {
-        if ((prevProps.beers !== this.props.beers) || 
-            (prevState.beerClicked !== this.state.beerClicked) ||
-            (prevState.beerToShow !== this.state.beerToShow))
-            return true;
-        else return false;
-    }
-
     componentDidMount() {
         if (!this.props.initialized) this.props.initialRequest(1);
         window.addEventListener("scroll", this.scrollHandler );
+    }
+
+    componentWillUnmount() {
+        //removing event handler when unmount (otherwise when comming back from favorites for examplet com
+        //ponent did mount would have registered another listener) ther might have been a problem with data integrity
+        window.removeEventListener('scroll', this.scrollHandler);
     }
 
     scrollEventHandler() {
         var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
         var scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
         var clientHeight = document.documentElement.clientHeight || window.innerHeight;
-        var scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
-        if (scrolledToBottom && !this.props.allFetched) {
-            this.setState((prev, props) => {
-                return {pageNumber: prev.pageNumber + 1}
-            })
-            this.props.loadMoreBeersRequest(this.state.pageNumber);
+        var scrolledToBottom = Math.ceil(scrollTop + clientHeight+5) >= scrollHeight;
+
+        //more beer will be loaded when scrolled to bottom and no beers are loading and not all beers are fetched yet
+        if (scrolledToBottom && !this.props.allFetched && !this.props.loading) {
+            this.props.loadMoreBeersRequest(this.props.page);
         }
     }
 
@@ -100,7 +96,8 @@ const mapStateToProps = (state) => {
         beers: state.beer.beers,
         loading: state.beer.loading,
         allFetched: state.beer.allFetched,
-        initialized: state.beer.initialized
+        initialized: state.beer.initialized,
+        page: state.beer.page
     }
 }
 

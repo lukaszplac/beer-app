@@ -14,7 +14,6 @@
     }
     .Image {
         @include flex(0 1 30%);
-        height: 100%;
         margin: 5px;
         padding: 5px;
         box-sizing: border-box;

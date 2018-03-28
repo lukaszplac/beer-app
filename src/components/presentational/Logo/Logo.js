@@ -4,7 +4,8 @@ import beerLogo from '../../../assets/images/beer.png';
 
 const logo = (props) => (
 	<div className={styles.Logo}
-		 /*style={{height: props.height, marginBottom: props.marginBottom}}*/>
+		 //style={{height: props.height, display: props.display}}>
+		 style={{...props.styles}}>
 		<img src={beerLogo} alt="My Beer Logo" />
 	</div>
 	);
