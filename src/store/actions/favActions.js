@@ -31,11 +31,18 @@ export const onDatabaseCallError = (error) => {
     }
 }
 
+export const onProcessing = () => {
+    return {
+        type: actionTypes.ON_PROCESSING
+    }
+}
+
 export const addFavoriteDB = (beer) => {
     const data = {
         id: beer.id
     }
     return dispatch => {
+        dispatch(onProcessing());
         dispatch(addFavoriteToStore(beer));
         axios.post('/favBeers.json', data )
                    .then(response => {
@@ -49,6 +56,7 @@ export const addFavoriteDB = (beer) => {
 
 export const removeFavoriteDB = (beer, docId) => {
     return dispatch => {
+        dispatch(onProcessing());
         dispatch(remFavoriteFromStore(beer));
         axios.delete('/favBeers/'+docId+'.json')
                    .then(response => {
@@ -62,6 +70,7 @@ export const removeFavoriteDB = (beer, docId) => {
 
 export const getFavoritesDB = () => {
     return dispatch => {
+        dispatch(onProcessing());
         axios.get('/favBeers.json')
              .then(response => {
                  dispatch(onGetFavoriteBeers(response.data))

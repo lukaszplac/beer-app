@@ -1,46 +1,39 @@
 import React, {Component} from 'react';
 import styles from './FavIndicator.scss';
 import {connect} from 'react-redux'
+import MyLittleSpinner from '../../../presentational/MyLittleSpinner/MyLittleSpinner';
 
 class FavIndicator extends Component {
 
     state = {
-        isFavorite : false,
-        toggle: false,
+        isFavorite : false
     }
 
-    componentWillReceiveProps(nextProps) {
-        let beers = Object.values(nextProps.favBeers).map(beer => beer.id);
-        let isFavorite = beers.includes(nextProps.id);
-        if (nextProps.favBeers !== this.props.favBeers);
-            this.setState({isFavorite: isFavorite})
-    }
-
-    //this toggle is to not allow seccond click on the favorite heart to prevent sending double POST request to firebase
-    changeToggleState() {
-        this.setState((prev) => {
-            return {
-            toggle: !prev.toggle
-            }
-        })
+    componentDidMount() {
+        let beers = this.props.favBeers.filter(beer => beer.id === this.props.id);
+        //length > 0 this means beer is among favorites
+        if (beers.length > 0){
+            this.setState({isFavorite: true});
+        }
     }
 
     onActivate(id) {
-        this.changeToggleState();
+        this.setState({isFavorite: true})
         this.props.onActivateFav(id)
     }
 
     onDeactivate(id) {
-        this.changeToggleState();
+        this.setState({isFavorite: false})
         this.props.onDeactivateFav(id)
     }
     
     render() {
         let classes = this.state.isFavorite ? [styles.FavIndicator, styles.FavIndicatorActive] : [styles.FavIndicator];
         return (
-            <div className={classes.join(' ')}
-                onClick= {() => !this.state.isFavorite && !this.state.toggle ? this.onActivate()  : this.onDeactivate() }>
-                <i className="fas fa-heart"></i>
+            <div className={classes.join(' ')}>
+                {this.props.processing || this.props.loading ? <MyLittleSpinner /> :
+                <i onClick= {() => !this.state.isFavorite ? this.onActivate()  : this.onDeactivate()}
+                   className="fas fa-heart"></i>}
             </div>
         );
     }
@@ -48,6 +41,8 @@ class FavIndicator extends Component {
 
 const mapStateToProps = state => {
     return {
+        processing: state.favs.processing,
+        loading: state.beer.loading,
         favBeers: state.beer.favs
     }
 }

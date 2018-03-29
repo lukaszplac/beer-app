@@ -25,8 +25,8 @@ class Beers extends Component {
     }
 
     componentWillUnmount() {
-        //removing event handler when unmount (otherwise when comming back from favorites for examplet com
-        //ponent did mount would have registered another listener) ther might have been a problem with data integrity
+        //removing event handler when unmount (otherwise when comming back from favorites for example com
+        //ponent did mount would have registered another listener) and there might have been a problem with data integrity
         window.removeEventListener('scroll', this.scrollHandler);
     }
 

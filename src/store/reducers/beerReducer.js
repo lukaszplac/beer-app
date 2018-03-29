@@ -43,7 +43,7 @@ const reducer = (state = initialState, action) => {
                 loading: false
             }
         case actionTypes.REM_FAVORITE:
-            let newFavs = state.favs.filter((ob) => ob.id === action.beer.id);
+            let newFavs = state.favs.filter((ob) => ob.id !== action.beer.id);
             return {
                 ...state,
                 error: false,

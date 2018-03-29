@@ -20,6 +20,7 @@ class Layout extends Component {
         let path = Object.values(this.props.favBeersDB).map(ob => ob.id).join('|');
 
         //and then (using that path) fetching beers from API and adding them to Redux store (look inside beerActions...)
+        //each time layout updates (by switching between beers and favs) this is refreshed to visualize current state
         this.props.getFromApiAndAddFavsToStore(path);
     }
 

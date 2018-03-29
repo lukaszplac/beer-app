@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
-import Spinner from '../../presentational/Spinner/Spinner';
 import styles from './Favorites.scss';
 import withErrorHandler from '../../../hoc/withErrorHandler';
 import axios from 'axios';
@@ -10,33 +9,30 @@ import retrieveDocId from '../../../helpers/retrieveDocId';
 
 class Favorites extends Component {
 
-    componentDidMount() {
-        let favIds = Object.values(this.props.favBeersDB).map(beer => beer.id);
-        let idPath = favIds.join('|');
-        if (idPath !== "") this.props.getBeersByIds(idPath);
+    state = {
+        clickedId: 0
     }
 
-    onRemoveFav(id) {
-        let docId = retrieveDocId.call(this.props.favBeersDB, id);
-        if (docId !== "") this.props.removeFav(docId);
+    onRemoveFav(beer) {
+        let docId = retrieveDocId.call(this.props.favBeersDB, beer.id);
+        if (docId !== "") this.props.removeFav(beer,docId);
+        this.setState({clickedId : beer.id})
     }
 
     render() {
         let beers = null;
-        if (!this.props.errorDB && !this.props.errorAPI) {
-            beers = this.props.favBeersAPI.map((beer) => (
-                <FavBeer key={beer.id} 
-                    name={beer.name} 
-                    tagline={beer.tagline} 
-                    image_url={beer.image_url} 
-                    remove={ (id) => this.onRemoveFav(beer.id) }/>
-            ));
-        } else {
-            beers = <p style={{textAlign: 'center'}}>Beers can`t be shown</p>
-        }
+            beers = this.props.favBeersAPI.map((beer, index) => (
+                    <FavBeer key={beer.id} 
+                        name={beer.name} 
+                        tagline={beer.tagline} 
+                        image_url={beer.image_url}
+                        classes={index%2 === 0 ? "animated fadeInLeft" : "animated fadeInRight"}
+                        remove={ () => this.onRemoveFav(beer) }/>
+                ));
         return (
+            this.props.errorDB || this.props.errorAPI ? <p style={{textAlign: 'center'}}>Beers can`t be shown</p> :
             <div className={styles.Favorites}>
-                {this.props.loading ? <Spinner /> : beers}
+                {beers}
             </div>
         );
     }
@@ -45,17 +41,16 @@ class Favorites extends Component {
 const mapStateToProps = state => {
     return {
         favBeersDB: state.favs.favBeers,
-        loading: state.beer.loading,
         favBeersAPI: state.beer.favs,
-        errorDB: state.favs.error,
-        errorAPI: state.beer.error
+        errorAPI: state.beer.error,
+        processing: state.favs.processing,
+        loading: state.beer.loading
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getBeersByIds: (idPath) => dispatch(actions.getBeersByIds(idPath)),
-        removeFav: (docId) => dispatch(actions.removeFavorite(docId))
+        removeFav: (beer, docId) => dispatch(actions.removeFavoriteDB(beer, docId))
     }
 }
 

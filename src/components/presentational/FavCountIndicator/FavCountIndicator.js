@@ -9,7 +9,7 @@ const favCountIndicator = props => {
     return (
         <div className={classes.join(' ')}>
             <i className="fas fa-heart"></i>
-            <p className={styles.Tick}>{props.favCount}</p>
+            <p>{props.favCount}</p>
         </div>
     );
 }

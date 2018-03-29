@@ -1,4 +1,4 @@
-//action types for beer parto of store
+//action types for beer part of store
 export const SET_FIRST_BEERS = 'SET_FIRST_BEERS';
 export const SET_MORE_BEERS = 'SET_MORE_BEERS';
 export const FETCHING_ERROR = 'FETCHING_ERROR';
@@ -17,8 +17,9 @@ export const ON_LOADING_MODAL = 'ON_LOADING_MODAL';
 export const FETCH_MODAL_BEERS_ERROR = 'FETCH_MODAL_BEERS_ERROR';
 export const GET_ONE_BEER = 'GET_ONE_BEER';
 
-//favorites action types
+//favorites DB action types
 export const ADD_FAVORITE_DB = "ADD_FAVORITE_DB";
 export const REM_FAVORITE_DB = "REM_FAVORITE_DB";
 export const GET_FAVORITES_DB = "GET_FAVORITES_DB"
 export const ON_DB_ERROR = "ON_DB_ERROR";
+export const ON_PROCESSING = "ON_PROCESSING";
