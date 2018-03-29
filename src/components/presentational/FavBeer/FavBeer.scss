@@ -1,0 +1,55 @@
+@import '../../../helpers/flex-mixin.scss';
+
+.Beer {
+    margin: 10px;
+    padding: 10px 5px 10px 5px;
+    width: 80%;
+    @include flex(0 1 100%);
+    @include flexbox();
+    @include flex-direction(row);
+    @include align-items(center);
+    @include justify-content(center);
+    @include align-content(center);
+    border-radius: 5px;
+    background-color: lightgray;
+    box-sizing: border-box;
+    border: 2px solid lightgray;
+    img {
+        @include flex(0 1 40%);
+        max-width: 7%;
+        height: auto;
+        @media only screen and (max-width : 768px) {
+            @include flex(0 1 30%);
+        }
+    }
+    .TextContainer {
+        @include flex(0 1 50%);
+        @include flexbox();
+        @include flex-direction(column);
+        @include align-items(center);
+        @include justify-content(center);
+        @include align-content(center);
+        margin: 10px 0 10px 0;
+        @media only screen and (max-width : 768px) {
+            @include flex(0 1 60%);
+        }
+    }
+    .Name{    
+        font-size: 18px;
+        color: rgb(115, 45, 128);
+        font-weight: bold;
+        padding: 10px 10px 2px 10px;
+        @media only screen and (max-width : 768px) {
+            font-size: 14px;
+        }
+    }
+    .Tagline {
+        font-size: 12px;
+        color: gray;
+        padding: 2px 10px 10px 10px;
+    }
+    p {
+        text-align: center;
+        margin: 0;
+    }
+}

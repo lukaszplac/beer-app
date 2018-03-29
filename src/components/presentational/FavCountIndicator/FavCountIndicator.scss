@@ -1,0 +1,44 @@
+@import '../../../helpers/flex-mixin.scss';
+
+.FavCount {
+    @include flexbox();
+    @include flex-direction(row);
+    @include align-items(center);
+    @include justify-content(space-around); 
+    @include align-content(center);
+    box-sizing: border-box;
+    height: 60%;
+    //width: 60px;
+    opacity: 0;
+    border: 2px solid white;
+    border-radius: 5px;
+    i {
+        color: red;
+        margin-right: 5px;
+    }
+    p {
+        color: white;
+    }
+}
+
+.FavCountInactive {
+    display: none;
+}
+
+.FavCountActive {
+    animation: appear .4s .4s linear forwards;
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        width: 30px;
+    }
+    90% {
+        width: 70px
+    }
+    100% {
+        opacity: 1;
+        width: 60px;
+    }
+}

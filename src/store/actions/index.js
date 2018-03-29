@@ -1,6 +1,10 @@
 export {
     initialLoad,
-    onLoadMore
+    onLoadMore,
+    getBeersByIds,
+    addAllFavsToStore,
+    addFavoriteToStore,
+    remFavoriteFromStore
 } from './beerActions';
 
 export {
@@ -9,7 +13,7 @@ export {
 } from './modalActions'
 
 export {
-    addFavorite,
-    removeFavorite,
-    getFavorites
+    addFavoriteDB,
+    removeFavoriteDB,
+    getFavoritesDB
 } from './favActions'

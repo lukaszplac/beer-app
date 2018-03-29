@@ -1,10 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
 import {fb_instance as axios} from '../../axios-instances';
+import {addFavoriteToStore, remFavoriteFromStore} from '../actions/index';
 
 
 export const onAddFavoriteBeer = (docName, beerId) => {
     return {
-        type: actionTypes.ADD_FAVORITE,
+        type: actionTypes.ADD_FAVORITE_DB,
         beerId: beerId,
         docId: docName
     }
@@ -12,14 +13,14 @@ export const onAddFavoriteBeer = (docName, beerId) => {
 
 export const onRemoveFavoriteBeer = (docId) => {
     return {
-        type: actionTypes.REM_FAVORITE,
+        type: actionTypes.REM_FAVORITE_DB,
         docId: docId
     }
 }
 
 export const onGetFavoriteBeers = (data) => {
     return {
-        type: actionTypes.GET_FAVORITES,
+        type: actionTypes.GET_FAVORITES_DB,
         favBeers: data
     }
 }
@@ -30,14 +31,15 @@ export const onDatabaseCallError = (error) => {
     }
 }
 
-export const addFavorite = (beerId, uderId) => {
+export const addFavoriteDB = (beer) => {
     const data = {
-        id: beerId
+        id: beer.id
     }
     return dispatch => {
+        dispatch(addFavoriteToStore(beer));
         axios.post('/favBeers.json', data )
                    .then(response => {
-                       dispatch(onAddFavoriteBeer(response.data.name, beerId))
+                       dispatch(onAddFavoriteBeer(response.data.name, beer.id))
                    })
                    .catch(error => {
                        dispatch(onDatabaseCallError(error))
@@ -45,8 +47,9 @@ export const addFavorite = (beerId, uderId) => {
     }
 }
 
-export const removeFavorite = (docId, beerId) => {
+export const removeFavoriteDB = (beer, docId) => {
     return dispatch => {
+        dispatch(remFavoriteFromStore(beer));
         axios.delete('/favBeers/'+docId+'.json')
                    .then(response => {
                        dispatch(onRemoveFavoriteBeer(docId))
@@ -57,7 +60,7 @@ export const removeFavorite = (docId, beerId) => {
     }
 }
 
-export const getFavorites = () => {
+export const getFavoritesDB = () => {
     return dispatch => {
         axios.get('/favBeers.json')
              .then(response => {

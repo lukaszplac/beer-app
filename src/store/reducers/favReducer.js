@@ -7,7 +7,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.ADD_FAVORITE:
+        case actionTypes.ADD_FAVORITE_DB:
             let newBeer = { };
             newBeer[action.docId] = {id: action.beerId};
             return {
@@ -15,7 +15,7 @@ const reducer = (state = initialState, action) => {
                 favBeers: {...state.favBeers, ...newBeer},
                 error: false
             };
-        case actionTypes.REM_FAVORITE:
+        case actionTypes.REM_FAVORITE_DB:
             let favsCopy = {...state.favBeers};
             delete favsCopy[action.docId];
             return {
@@ -23,11 +23,11 @@ const reducer = (state = initialState, action) => {
                 favBeers: {...favsCopy},
                 error: false
             };
-        case actionTypes.GET_FAVORITES:
+        case actionTypes.GET_FAVORITES_DB:
             return {
                 ...state,
                 favBeers: Object.assign({}, action.favBeers),
-                error: false
+                error: false,
             };
         case actionTypes.ON_DB_ERROR:
             return {

@@ -1,0 +1,11 @@
+@import '../../../helpers/flex-mixin.scss';
+
+.Favorites {
+    padding-top: 20px;
+    @include flex(0 1 20%);
+    @include flexbox();
+    @include flex-direction(column);
+    @include align-items(center);
+    @include justify-content(center);
+    @include align-content(center);
+}

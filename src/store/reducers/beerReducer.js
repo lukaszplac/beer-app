@@ -2,8 +2,9 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     beers: [],
+    favs: [],
     error: false,
-    loading: true,
+    loading: false,
     allFetched: false,
     initialized: false,
     page: 1
@@ -33,6 +34,28 @@ const reducer = (state = initialState, action) => {
                 beers: [...state.beers,...action.beers],
                 loading: false,
                 page: state.page + 1
+            }
+        case actionTypes.ADD_ALL_FAVS_TO_STORE:   
+            return {
+                ...state,
+                error: false,
+                favs: [...action.beers],
+                loading: false
+            }
+        case actionTypes.REM_FAVORITE:
+            let newFavs = state.favs.filter((ob) => ob.id === action.beer.id);
+            return {
+                ...state,
+                error: false,
+                loading: false,
+                favs: [...newFavs]
+            }
+        case actionTypes.ADD_FAVORITE:
+            return {
+                ...state,
+                error: false,
+                favs: [...state.favs, action.beer],
+                loading: false
             }
         case actionTypes.FETCHING_ERROR:
             return {

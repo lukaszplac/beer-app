@@ -9,6 +9,7 @@ import FavIndicator from './FavIndicator/FavIndicator';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
 import * as orderTypes from './beerOrder';
+import retrieveDocId from '../../../helpers/retrieveDocId';
 
 
 class BeerDetails extends Component {
@@ -52,18 +53,13 @@ class BeerDetails extends Component {
         })
     }
 
-    removeFavorite(id) {
-        let docId = "";
-        for (let key in this.props.favBeers) {
-            if (this.props.favBeers.hasOwnProperty(key)) {
-                if (this.props.favBeers[key].id === id) docId=key;
-            }
-        }
-        if (docId !== "") this.props.removeFavorite(docId);
+    removeFavorite(beer) {
+        let docId = retrieveDocId.call(this.props.favBeers, beer.id);
+        if (docId !== "") this.props.removeFavorite(beer, docId);
     }
 
-    addFavorite(id) {
-        this.props.addFavorite(id);
+    addFavorite(beer) {
+        this.props.addFavorite(beer);
     }
 
     render () {
@@ -87,16 +83,16 @@ class BeerDetails extends Component {
                     <div className={styles.Pictures}>
                         <div className={styles.MainImage}>
                             <div style={{width: '30%'}}><img src={currentBeer.image_url} alt="main modal"/></div>
-                            <FavIndicator onActivateFav={(id) => this.addFavorite(currentBeer.id)}
-                                          onDeactivateFav={(id) => this.removeFavorite(currentBeer.id)}
+                            <FavIndicator onActivateFav={(beer) => this.addFavorite(currentBeer)}
+                                          onDeactivateFav={(beer) => this.removeFavorite(currentBeer)}
                                           id={currentBeer.id}
                                           favBeers={this.props.favBeers}/>
                         </div>
                         {this.props.loading ? <Spinner /> : <RightPanelModal
                                                                     orderType={this.state.orderType}
                                                                     beers={this.props.rightPanelBeers}
-                                                                    onChangeIbu={() => this.onChangeOrderByIbu(currentBeer)}
-                                                                    onChangeAbv={() => this.onChangeOrderByAbv(currentBeer)}
+                                                                    onChangeIbu={(beer) => this.onChangeOrderByIbu(currentBeer)}
+                                                                    onChangeAbv={(beer) => this.onChangeOrderByAbv(currentBeer)}
                                                                     onBeerClicked={(id) => this.onBeerClicked(id)} 
                                                                     />}
                     </div>
@@ -133,8 +129,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         apiRequestForSimillarBeers: (measuredBy, url_param) => dispatch(actions.apiCallModalBeers(measuredBy, url_param)),
         onBeerClicked: (id) => dispatch(actions.getOneBeer(id)),
-        addFavorite: (id) => dispatch(actions.addFavorite(id)),
-        removeFavorite: (docId) => dispatch(actions.removeFavorite(docId)),
+        addFavorite: (beer) => dispatch(actions.addFavorite(beer)),
+        removeFavorite: (beer, docId) => dispatch(actions.removeFavorite(beer, docId)),
         getFavorites: () => dispatch(actions.getFavorites())
     }
 }

@@ -39,7 +39,7 @@ class FavIndicator extends Component {
         let classes = this.state.isFavorite ? [styles.FavIndicator, styles.FavIndicatorActive] : [styles.FavIndicator];
         return (
             <div className={classes.join(' ')}
-                onClick={(id) => !this.state.isFavorite && !this.state.toggle ? this.onActivate(this.props.id)  : this.onDeactivate(this.props.id) }>
+                onClick= {() => !this.state.isFavorite && !this.state.toggle ? this.onActivate()  : this.onDeactivate() }>
                 <i className="fas fa-heart"></i>
             </div>
         );
@@ -48,7 +48,7 @@ class FavIndicator extends Component {
 
 const mapStateToProps = state => {
     return {
-        favBeers: state.favs.favBeers
+        favBeers: state.beer.favs
     }
 }
 
