@@ -9,14 +9,17 @@ import retrieveDocId from '../../../helpers/retrieveDocId';
 
 class Favorites extends Component {
 
+    //setting initial animation
     state = {
-        clickedId: 0
+        leftAnim: "animated fadeInLeft",
+        rightAnim: "animated fadeInRight"
     }
 
     onRemoveFav(beer) {
         let docId = retrieveDocId.call(this.props.favBeersDB, beer.id);
         if (docId !== "") this.props.removeFav(beer,docId);
-        this.setState({clickedId : beer.id})
+        //reseting initial animation when only updating
+        this.setState({leftAnim: "", rightAnim: ""})
     }
 
     render() {
@@ -26,7 +29,7 @@ class Favorites extends Component {
                         name={beer.name} 
                         tagline={beer.tagline} 
                         image_url={beer.image_url}
-                        classes={index%2 === 0 ? "animated fadeInLeft" : "animated fadeInRight"}
+                        classes={index%2 === 0 ? this.state.leftAnim : this.state.rightAnim}
                         remove={ () => this.onRemoveFav(beer) }/>
                 ));
         return (
