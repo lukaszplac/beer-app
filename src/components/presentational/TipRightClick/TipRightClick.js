@@ -2,8 +2,9 @@ import React from 'react';
 import styles from './TipRightClick.scss';
 
 const tipRightClick = props => (
+    //inline styles to change behavior a little bit for Tip showing when modal is open
     <div className={styles.Tip}>
-        <p>TIP! Right click to FAV!</p>
+        <p>{props.text}</p>
     </div>
 );
 

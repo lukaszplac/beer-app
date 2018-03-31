@@ -8,4 +8,15 @@
     @include align-items(center);
     @include justify-content(center);
     @include align-content(center);
+    .ClearButton {
+        background-color: rgb(115, 45, 128);
+        padding: 10px 0 10px 0;
+        width: 80%;
+        color: white;
+        text-align: center;
+        &:hover {
+            background-color: rgba(115, 45, 128, .5);
+            cursor: pointer;
+        }
+    }
 }

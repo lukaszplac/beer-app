@@ -4,7 +4,8 @@ export {
     getBeersByIds,
     addAllFavsToStore,
     addFavoriteToStore,
-    remFavoriteFromStore
+    remFavoriteFromStore,
+    deleteAllFromStore
 } from './beerActions';
 
 export {
@@ -15,5 +16,6 @@ export {
 export {
     addFavoriteDB,
     removeFavoriteDB,
-    getFavoritesDB
+    getFavoritesDB,
+    clearFavsDB
 } from './favActions'

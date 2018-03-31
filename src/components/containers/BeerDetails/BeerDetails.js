@@ -21,7 +21,6 @@ class BeerDetails extends Component {
 
     componentDidMount() {
         this.onChangeOrderByAbv(this.props.beer);
-        //this.props.getFavorites();
     }
 
     //used to change 3 x modal beers for new clicked beer if component did update, comparing prev props with new one just to be sure
@@ -58,8 +57,8 @@ class BeerDetails extends Component {
         if (docId !== "") this.props.removeFavorite(beer, docId);
     }
 
-    addFavorite(beer) {
-        this.props.addFavorite(beer);
+    addFavorite(beer, count) {
+        this.props.addFavorite(beer, count);
     }
 
     render () {
@@ -83,10 +82,13 @@ class BeerDetails extends Component {
                     <div className={styles.Pictures}>
                         <div className={styles.MainImage}>
                             <div style={{width: '30%'}}><img src={currentBeer.image_url} alt="main modal"/></div>
-                            <FavIndicator onActivateFav={() => this.addFavorite(currentBeer)}
+                            <FavIndicator onActivateFav={() => this.addFavorite(currentBeer, this.props.beersCount)}
                                           onDeactivateFav={() => this.removeFavorite(currentBeer)}
                                           id={currentBeer.id}
-                                          favBeers={this.props.favBeers}/>
+                                          favBeers={this.props.favBeers}
+                                          count={this.props.beersCount}
+                                          alertAppear={this.props.favAlertAppear}
+                                          alertReset={this.props.favAlertReset}/>
                         </div>
                         {this.props.loading ? <Spinner /> : <RightPanelModal
                                                                     orderType={this.state.orderType}
@@ -129,9 +131,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         apiRequestForSimillarBeers: (measuredBy, url_param) => dispatch(actions.apiCallModalBeers(measuredBy, url_param)),
         onBeerClicked: (id) => dispatch(actions.getOneBeer(id)),
-        addFavorite: (beer) => dispatch(actions.addFavoriteDB(beer)),
+        addFavorite: (beer, length) => dispatch(actions.addFavoriteDB(beer, length)),
         removeFavorite: (beer, docId) => dispatch(actions.removeFavoriteDB(beer, docId)),
-        //getFavorites: () => dispatch(actions.getFavoritesDB())
     }
 }
 

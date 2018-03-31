@@ -34,7 +34,7 @@ export const fetchingDone = () => {
     }
 }
 
-export const addToStore = (beer) => {
+export const addFavoriteToStore = (beer) => {
     return {
         type: actionTypes.ADD_FAVORITE,
         beer: beer
@@ -48,10 +48,16 @@ export const remFavoriteFromStore = (beer) => {
     }
 }
 
-export const addAllFavsToStore = (beers) => {
+export const refreshFavsInStore = (beers) => {
     return {
-        type: actionTypes.ADD_ALL_FAVS_TO_STORE,
+        type: actionTypes.REFRESH_FAVS_IN_STORE,
         beers: beers
+    }
+}
+
+export const deleteAllFromStore = () => {
+    return {
+        type: actionTypes.DELETE_ALL
     }
 }
 
@@ -70,19 +76,6 @@ export const initialLoad = (page) => {
     }
 }
 
-export const addFavoriteToStore = (beer) => {
-    return dispatch => {
-        dispatch(onLoading());
-        let url = '/beers/?ids=' + beer.id;  // "&per_page=80" 
-        axios.get(url)
-             .then(response => {
-                 dispatch(addToStore(response.data))              
-             })
-             .catch(error => {
-                 dispatch(fetchingBeersError());
-             })
-    }
-}
 
 export const onLoadMore = (page) => {
     return dispatch => {
@@ -102,10 +95,10 @@ export const onLoadMore = (page) => {
 export const getBeersByIds = (idPath) => {
     return dispatch => {
         dispatch(onLoading());
-        let url = '/beers/?ids=' + idPath;
+        let url = '/beers/?page=1&per_page=30&ids='+ idPath; //lets say user can have up to 30 favs
         axios.get(url)
              .then(response => {
-                 dispatch(addAllFavsToStore(response.data))              
+                 dispatch(refreshFavsInStore(response.data))              
              })
              .catch(error => {
                  dispatch(fetchingBeersError());

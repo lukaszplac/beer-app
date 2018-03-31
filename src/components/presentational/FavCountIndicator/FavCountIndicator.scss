@@ -8,7 +8,6 @@
     @include align-content(center);
     box-sizing: border-box;
     height: 60%;
-    //width: 60px;
     opacity: 0;
     border: 2px solid white;
     border-radius: 5px;
@@ -19,6 +18,9 @@
     p {
         color: white;
     }
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .FavCountInactive {
@@ -26,7 +28,11 @@
 }
 
 .FavCountActive {
-    animation: appear .4s .4s linear forwards;
+    animation: appear .5s .1s linear forwards;
+}
+
+.Max {
+    animation: max .8s .1s linear infinite;
 }
 
 @keyframes appear {
@@ -36,6 +42,23 @@
     }
     90% {
         width: 70px
+    }
+    100% {
+        opacity: 1;
+        width: 60px;
+    }
+}
+
+@keyframes max {
+    0% {
+        opacity: 1;
+        width: 60px;
+
+    }
+    50% {
+        opacity: 0;
+        width: 60px;
+
     }
     100% {
         opacity: 1;

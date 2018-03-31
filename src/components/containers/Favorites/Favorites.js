@@ -6,20 +6,28 @@ import withErrorHandler from '../../../hoc/withErrorHandler';
 import axios from 'axios';
 import FavBeer from '../../presentational/FavBeer/FavBeer';
 import retrieveDocId from '../../../helpers/retrieveDocId';
+import AnimHeart from '../../presentational/AnimHeart/AnimHeart';
+import Spinner from '../../presentational/Spinner/Spinner';
 
 class Favorites extends Component {
 
     //setting initial animation
     state = {
         leftAnim: "animated fadeInLeft",
-        rightAnim: "animated fadeInRight"
+        rightAnim: "animated fadeInRight",
+        removingCountString: "-1"
     }
 
     onRemoveFav(beer) {
         let docId = retrieveDocId.call(this.props.favBeersDB, beer.id);
         if (docId !== "") this.props.removeFav(beer,docId);
         //reseting initial animation when only updating
-        this.setState({leftAnim: "", rightAnim: ""})
+        this.setState({leftAnim: "", rightAnim: "", removingCountString: "-1"})
+    }
+
+    onRemoveAll() {
+        this.setState({removingCountString: "-" + this.props.favBeersAPI.length});
+        this.props.removeAllFavs();
     }
 
     render() {
@@ -33,9 +41,14 @@ class Favorites extends Component {
                         remove={ () => this.onRemoveFav(beer) }/>
                 ));
         return (
-            this.props.errorDB || this.props.errorAPI ? <p style={{textAlign: 'center'}}>Beers can`t be shown</p> :
+            this.props.errorDB || this.props.errorAPI ? <p style={{textAlign: 'center'}}>Beers can`t be shown.</p> :
             <div className={styles.Favorites}>
-                {beers}
+                {beers.length > 1 ? <div className={styles.ClearButton}
+                                         onClick={() => this.onRemoveAll()}>
+                                         CLEAR ALL FAVORITES
+                                    </div> : null}
+                {this.props.processing ? <Spinner /> : beers}
+                <AnimHeart count={this.state.removingCountString}/>
             </div>
         );
     }
@@ -43,17 +56,18 @@ class Favorites extends Component {
 
 const mapStateToProps = state => {
     return {
-        favBeersDB: state.favs.favBeers,
         favBeersAPI: state.beer.favs,
         errorAPI: state.beer.error,
-        processing: state.favs.processing,
-        loading: state.beer.loading
+        favBeersDB: state.favs.favBeers,
+        errorDB: state.favs.error,
+        processing: state.favs.processing
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        removeFav: (beer, docId) => dispatch(actions.removeFavoriteDB(beer, docId))
+        removeFav: (beer, docId) => dispatch(actions.removeFavoriteDB(beer, docId)),
+        removeAllFavs: () => dispatch(actions.clearFavsDB())
     }
 }
 

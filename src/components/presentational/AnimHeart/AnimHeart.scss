@@ -1,0 +1,38 @@
+.AnimHeart {
+    position: fixed;
+    left: 35px;
+    top: 20px;
+    z-index: 1000;
+    opacity: 0;
+}
+
+.HeartAdding {
+    color: red;
+    animation: move .5s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+.HeartRemoving {
+    color: black;
+    animation: move .5s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+.NotDisplay {
+    display: none;
+}
+
+@keyframes move {
+    0% {
+        opacity: 1;
+        left: 35px;
+    }
+    50% {
+        opacity: .5;
+        left: 100px;
+        top: 100px;
+        font-size: 40px;
+    }
+    100% {
+        opacity: 0;
+        left: 200px;
+        top: 200px;
+        font-size: 50px;
+    }
+}

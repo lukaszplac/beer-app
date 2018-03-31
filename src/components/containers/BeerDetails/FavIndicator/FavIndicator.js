@@ -18,19 +18,22 @@ class FavIndicator extends Component {
     }
 
     onActivate(id) {
-        this.setState({isFavorite: true})
+        if (this.props.count < 30) this.setState({isFavorite: true});
+        else this.props.alertAppear();
         this.props.onActivateFav(id)
     }
 
     onDeactivate(id) {
         this.setState({isFavorite: false})
-        this.props.onDeactivateFav(id)
+        this.props.onDeactivateFav(id);
+        this.props.alertReset();
     }
     
     render() {
         let classes = this.state.isFavorite ? [styles.FavIndicator, styles.FavIndicatorActive] : [styles.FavIndicator];
         return (
-            <div className={classes.join(' ')}>
+            <div className={classes.join(' ')}
+                 onMouseLeave={this.props.alertReset}>
                 {this.props.processing || this.props.loading ? <MyLittleSpinner /> :
                 <i onClick= {() => !this.state.isFavorite ? this.onActivate()  : this.onDeactivate()}
                    className="fas fa-heart"></i>}

@@ -6,8 +6,12 @@ const favCountIndicator = props => {
     if (props.favCount > 0) {
         classes = [styles.FavCount, styles.FavCountActive];
     }
+    if (props.favCount > 29) {
+        classes = [styles.FavCount, styles.Max];
+    }
     return (
-        <div className={classes.join(' ')}>
+        <div className={classes.join(' ')}
+             onClick={props.onClickFavCount}>
             <i className="fas fa-heart"></i>
             <p>{props.favCount}</p>
         </div>

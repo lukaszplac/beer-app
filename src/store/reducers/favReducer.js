@@ -3,7 +3,10 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     favBeers: {},
     error: false,
-    processing: false
+    processing: false,
+    adding: false,
+    removing: false,
+    full: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +17,25 @@ const reducer = (state = initialState, action) => {
                 processing: true,
                 error: false
             }
+        case actionTypes.ADDING_IN_PROGRESS:
+            return  {
+                ...state,
+                adding: true,
+                removing: false
+            }
+        case actionTypes.DELETE_ALL_DB:
+            return  {
+                ...state,
+                favBeers: [],
+                processing: false,
+                removing: false
+            }
+        case actionTypes.REMOVING_IN_PROGRESS:
+            return  {
+                ...state,
+                adding: false,
+                removing: true
+            }
         case actionTypes.ADD_FAVORITE_DB:
             let newBeer = { };
             newBeer[action.docId] = {id: action.beerId};
@@ -21,7 +43,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 favBeers: {...state.favBeers, ...newBeer},
                 error: false,
-                processing: false
+                processing: false,
+                adding: false,
+                removing: false,
+                full: false
             };
         case actionTypes.REM_FAVORITE_DB:
             let favsCopy = {...state.favBeers};
@@ -30,7 +55,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 favBeers: {...favsCopy},
                 error: false,
-                processing: false
+                processing: false,
+                adding: false,
+                removing: false,
+                full: false
             };
         case actionTypes.GET_FAVORITES_DB:
             return {
@@ -44,6 +72,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 error: true,
                 processing: false
+            }
+     case actionTypes.FAV_FULL:
+            return {
+                ...state,
+                full: true,
+                processing: false,
+                error: false,
+                adding: false,
+                removing: false
             }
         default:
             return state;    

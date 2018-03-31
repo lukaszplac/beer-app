@@ -35,7 +35,7 @@ const reducer = (state = initialState, action) => {
                 loading: false,
                 page: state.page + 1
             }
-        case actionTypes.ADD_ALL_FAVS_TO_STORE:   
+        case actionTypes.REFRESH_FAVS_IN_STORE:   
             return {
                 ...state,
                 error: false,
@@ -62,6 +62,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 error: true,
                 loading: false
+            }
+        case actionTypes.DELETE_ALL:
+            return {
+                ...state,
+                favs: []
             }
         case actionTypes.FETCHING_DONE:
             return {

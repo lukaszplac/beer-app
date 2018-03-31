@@ -4,7 +4,8 @@ import styles from './Layout.scss';
 import Toolbar from '../../presentational/Toolbar/Toolbar';
 import SideDrawer from '../../presentational/SideDrawer/SideDrawer';
 import {connect} from 'react-redux';
-import * as actions from '../../../store/actions/index'
+import * as actions from '../../../store/actions/index';
+import {withRouter} from 'react-router-dom';
 
 class Layout extends Component {
     state = {
@@ -34,11 +35,15 @@ class Layout extends Component {
 		});
     }
     
+    onClickFavCount() {
+        this.props.history.push('/favs');
+    }
+
     render() {
         let favLength = Object.keys(this.props.favBeersDB).length;
         return (
-            <AuxComp>
-                <Toolbar openSideDrawer={this.sideDrawerOpenHandler} favCount={favLength}/>
+            <AuxComp favCountAnimTrigger="true">
+                <Toolbar openSideDrawer={this.sideDrawerOpenHandler} favCount={favLength} onClickFavCount={() => this.onClickFavCount()}/>
                 <SideDrawer
 					open={this.state.showSideDrawer}
 					closed={this.sideDrawerClosedHandler}/>
@@ -52,15 +57,15 @@ class Layout extends Component {
 
 const mapStateToProps = state => {
     return {
-        favBeersDB: state.favs.favBeers,
+        favBeersDB: state.favs.favBeers
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         getFavsFromDB: () => dispatch(actions.getFavoritesDB()),
-        getFromApiAndAddFavsToStore: (path) => dispatch(actions.getBeersByIds(path))
+        getFromApiAndAddFavsToStore: (path, page) => dispatch(actions.getBeersByIds(path, page))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));

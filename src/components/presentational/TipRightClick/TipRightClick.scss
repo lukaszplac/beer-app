@@ -1,13 +1,15 @@
 .Tip {
     position: fixed;
+    z-index: 1000;
     top: 75%;
     left: -100vw;
     opacity: 0;
     background-color:rgb(115, 45, 128);
     animation: fadeInAndOut 5s cubic-bezier(0.19, 1, 0.22, 1);
     padding: 10px 20px 10px 20px;
+    max-width: 50%;
     @media screen and (max-width: 767px) {
-        dispaly: none;
+        display: none;
     }
     p {
         color: white;
@@ -16,13 +18,13 @@
 
 @keyframes fadeInAndOut {
     50% {
-        left: 40vw;
+        left: 45vw;
         top: 75%;
         opacity: 1
     }
     100% {
         top: 100%;
-        left: 40vw;
+        left: 45vw;
         opacity: 0;
     }
 }

@@ -10,7 +10,7 @@ const toolbar = (props) => {
 		<header className={styles.Toolbar}>
 			<DrawerToggle clicked={props.openSideDrawer}/>
             <Logo />
-			<FavCountIndicator favCount={props.favCount} />
+			<FavCountIndicator favCount={props.favCount} onClickFavCount={props.onClickFavCount}/>
 			<nav className={styles.DesktopOnly}>
 				<NavigationItems isAuthenticated={props.isAuth}/>
 			</nav>
