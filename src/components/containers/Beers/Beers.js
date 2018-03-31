@@ -8,16 +8,23 @@ import styles from './Beers.scss';
 import BeerDetails from '../BeerDetails/BeerDetails';
 import axios from '../../../axios-instances';
 import withErrorHandler from '../../../hoc/withErrorHandler';
+import WheelDown from '../../presentational/WheelDown/WheelDown';
+import TipRightClick from '../../presentational/TipRightClick/TipRightClick';
+import AuxComp from '../../../hoc/AuxComp/AuxComp';
 
 class Beers extends Component {
 
     state = {
         beerClicked: false,
-        beerToShow: null
+        beerToShow: null,
+        tipShouldAppear: true,
+        tipTrigger: false
     }
 
     //just giving the event handler a refernece to be able to remove it in the future when modal appears
     scrollHandler = () => this.scrollEventHandler();
+    
+    interval = setInterval(() => this.setState({tipShouldAppear: true}), 15000);
 
     componentDidMount() {
         if (!this.props.initialized) this.props.initialRequest(1);
@@ -28,6 +35,7 @@ class Beers extends Component {
         //removing event handler when unmount (otherwise when comming back from favorites for example com
         //ponent did mount would have registered another listener) and there might have been a problem with data integrity
         window.removeEventListener('scroll', this.scrollHandler);
+        clearInterval(this.interval);
     }
 
     scrollEventHandler() {
@@ -60,6 +68,14 @@ class Beers extends Component {
         window.addEventListener("scroll", this.scrollHandler);
     }
 
+    onMouseEnterOnBeer() {
+        if(this.state.tipShouldAppear) {
+            this.setState({tipTrigger: true, tipShouldAppear: false})
+        } else {
+            this.setState({tipTrigger: false});
+        }
+    }
+
     render() {
         let beers = null;
         if (!this.props.error) {
@@ -67,25 +83,31 @@ class Beers extends Component {
                 <Beer key={beer.id} 
                     name={beer.name} 
                     tagline={beer.tagline} 
-                    image_url={beer.image_url} 
-                    clicked={ () => this.onBeerClicked(beer.id) }/>
+                    image_url={beer.image_url}
+                    classes="animated bounceInDown"
+                    clicked={ () => this.onBeerClicked(beer.id) }
+                    mouseEnter = { () => this.onMouseEnterOnBeer()}/>
             ));
         } else {
             beers = <p style={{textAlign: 'center'}}>Beers can`t be shown</p>
         }
         return (
-            <div className={styles.Beers}>
-                <Modal 
-                    show = {this.state.beerClicked}
-                    modalClosed = {() => this.onModalClosed()}>
-                         {this.state.beerToShow != null ? <BeerDetails
-                                                            beer={this.props.beers[this.state.beerToShow]}
-                                                            areAllFetched={this.props.allFetched}/> : null}
-                </Modal>
-                {beers}
-                {this.props.loading ? <div className={styles.Spinner}><Spinner /></div> : null}
-                {this.props.allFetched ? <div className={styles.EndLine}></div> : null}
-            </div>
+            <AuxComp>
+                <div className={styles.Beers}>
+                    <Modal 
+                        show = {this.state.beerClicked}
+                        modalClosed = {() => this.onModalClosed()}>
+                            {this.state.beerToShow != null ? <BeerDetails
+                                                                beer={this.props.beers[this.state.beerToShow]}
+                                                                areAllFetched={this.props.allFetched}/> : null}
+                    </Modal>
+                    {beers}
+                    {this.props.loading ? <div className={styles.Spinner}><Spinner /></div> : null}
+                    {this.props.allFetched ? <div className={styles.EndLine}></div> : null}
+                </div>
+                {!this.props.allFetched && !this.props.error ? <WheelDown /> : null}
+                {this.state.tipTrigger ? <TipRightClick /> : null}
+            </AuxComp>
         );
     }
 }

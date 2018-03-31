@@ -13,6 +13,8 @@
     background-color: lightgray;
     box-sizing: border-box;
     border: 2px solid lightgray;
+    animation-duration: 2s;
+    animation-delay: 0.2s;
     @media only screen and (max-width : 768px) {
         @include flex-direction(row);
         @include justify-content(space-around);

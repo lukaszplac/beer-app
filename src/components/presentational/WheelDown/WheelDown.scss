@@ -1,0 +1,39 @@
+.WheelContainer {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    animation-delay: .3s;
+    animation-duration: 2.6s;
+    i {
+        font-size: 30px;
+        padding: 10px;
+    }
+    @media only screen and (max-width : 767px) {
+        display: none;
+    }
+    .Wheel_1 {
+        animation: wheel .6s linear 0s infinite alternate;
+    }
+    .Wheel_2 {
+        animation: wheel .6s linear .1s infinite alternate;
+    }
+    .Wheel_3 {
+        animation: wheel .6s linear .2s infinite alternate;
+    }
+    .Wheel_4 {
+        animation: wheel .6s linear .3s infinite alternate;
+    }
+}
+
+@keyframes wheel {
+    0% {
+        color: rgb(235, 230, 230);
+        padding-bottom: 0px;
+    }
+    100% {
+        color: rgb(115, 45, 128);
+        padding-bottom: 10px;
+    }
+}

@@ -1,0 +1,28 @@
+.Tip {
+    position: fixed;
+    top: 75%;
+    left: -100vw;
+    opacity: 0;
+    background-color:rgb(115, 45, 128);
+    animation: fadeInAndOut 5s cubic-bezier(0.19, 1, 0.22, 1);
+    padding: 10px 20px 10px 20px;
+    @media screen and (max-width: 767px) {
+        dispaly: none;
+    }
+    p {
+        color: white;
+    }
+}
+
+@keyframes fadeInAndOut {
+    50% {
+        left: 40vw;
+        top: 75%;
+        opacity: 1
+    }
+    100% {
+        top: 100%;
+        left: 40vw;
+        opacity: 0;
+    }
+}
