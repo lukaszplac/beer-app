@@ -27,7 +27,6 @@ class ModalHoc extends Component {
 
     componentDidMount() {
         //getting beer from api based on react router id param
-        console.log(this.props.match.params);
         this.props.getBeer(this.props.match.params.id);
     }
 
