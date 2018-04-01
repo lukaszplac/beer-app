@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './MainDescription.scss';
 
+//simple functional component to provide info for BeerDetails container
 const mainDescription = (props) => {
     return (
         <div className={styles.MainDescr}>

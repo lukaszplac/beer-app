@@ -24,6 +24,7 @@ class BeerDetails extends Component {
     }
 
     //used to change 3 x modal beers for new clicked beer if component did update, comparing prev props with new one just to be sure
+    //propsed other beer is the beer fetched from api when beer has been clicked
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.otherBeer !== this.props.otherBeer)
             this.onChangeOrderByAbv(this.props.otherBeer[0]);
@@ -62,26 +63,36 @@ class BeerDetails extends Component {
     }
 
     render () {
+        //at the beginning setting current beer to beer passed from wrapping component => see Beers
         let currentBeer = this.props.beer;
         let bestServedWith = null;
         if (!this.props.error) {
 
+            //..but, if other beer is clicked and it is not still loading currentBeer is changed to other beer fetched from api
             if (this.state.otherBeerClicked && !this.props.loadingModal) {
                 currentBeer = this.props.otherBeer[0];
             }
             
+            //getting data for BestFood component => see below
             bestServedWith = currentBeer.food_pairing.map((food, index) => (
                 <p key={index}>{food}</p>
             ));
         }
         return(
+            //showing modal if something is loading
             this.props.loadingModal ? <Spinner /> :
+            
+            //showing some simple text if something is wrong otherwise rendering whole bunch of code below
             this.props.error ? <p style={{textAlign: 'center'}}>Beers can`t be shown</p> :
             <AuxComp>
                 <div className={styles.BeerDetails}>
                     <div className={styles.Pictures}>
                         <div className={styles.MainImage}>
                             <div style={{width: '30%'}}><img src={currentBeer.image_url} alt="main modal"/></div>
+                            
+                            {/*the little heart next to beer is whole new component because it can change state by handling clicking
+                               and also represents state, it has to be able also controlling state of alert appearing when fav list is full
+                               by passing methods alerAppear and alertReset*/}
                             <FavIndicator onActivateFav={() => this.addFavorite(currentBeer, this.props.beersCount)}
                                           onDeactivateFav={() => this.removeFavorite(currentBeer)}
                                           id={currentBeer.id}
@@ -90,6 +101,8 @@ class BeerDetails extends Component {
                                           alertAppear={this.props.favAlertAppear}
                                           alertReset={this.props.favAlertReset}/>
                         </div>
+                        {/*also right panel must show spinner when beers with lower ibu or higher abv are loading*/}
+                        {/*3 beer for right panel are also kept in stor under state.modal.beersModal*/}
                         {this.props.loading ? <Spinner /> : <RightPanelModal
                                                                     orderType={this.state.orderType}
                                                                     beers={this.props.rightPanelBeers}
@@ -99,6 +112,7 @@ class BeerDetails extends Component {
                                                                     />}
                     </div>
                     <div className={styles.TextDescr} >
+                        {/*showing text and other infor for current beer*/}
                         <MainDescription
                                 name = {currentBeer.name}
                                 tagline = {currentBeer.tagline}

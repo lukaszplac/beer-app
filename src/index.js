@@ -12,8 +12,10 @@ import beerReducer from './store/reducers/beerReducer';
 import modalReducer from './store/reducers/modalReducer';
 import favReducer from './store/reducers/favReducer';
 
-const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
+//uncomment this line if you want to see Redux store in development mode
+//const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
+//creating root reducer by combining 3 subreducers
 const rootReducer = combineReducers({
     beer: beerReducer,
     modal: modalReducer,
@@ -22,12 +24,19 @@ const rootReducer = combineReducers({
 
 const store = createStore(
     rootReducer,
-    composeEnhancers(applyMiddleware(thunk))
+    
+    //uncomment this line if you want to see Redux store in development mode
+    //composeEnhancers(applyMiddleware(thunk))
+
+    //comment this line if you want to see Redux store in development mode
+    compose(applyMiddleware(thunk))
 )
 
 const app = (
+    //providing store for react redux
+    //wrapping app inside hoc BrowserRouter to provide react router functions
     <Provider store = {store}>
-        <BrowserRouter>
+        <BrowserRouter> 
             <App />
         </BrowserRouter>
     </Provider>

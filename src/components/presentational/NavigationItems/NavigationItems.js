@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './NavigationItems.scss';
 import NavigationItem from './NavigationItem/NavigationItem';
 
+//navigation itmes for react router
 const navigationItems = (props) => {
 	return (
 		<ul className={styles.NavigationItems}>

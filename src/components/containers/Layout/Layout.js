@@ -21,7 +21,7 @@ class Layout extends Component {
         let path = Object.values(this.props.favBeersDB).map(ob => ob.id).join('|');
 
         //and then (using that path) fetching beers from API and adding them to Redux store (look inside beerActions...)
-        //each time layout updates (by switching between beers and favs) this is refreshed to visualize current state
+        //each time layout updates (by switching between beers and favs for example) fav is refreshed to visualize current state
         this.props.getFromApiAndAddFavsToStore(path);
     }
 
@@ -30,19 +30,22 @@ class Layout extends Component {
 	}
 
 	sideDrawerOpenHandler = () => {
+        //using function beacuse previous state is used inside setState
 		this.setState((prevState) => {
 			return ({showSideDrawer: !prevState.showSideDrawer});
 		});
     }
     
+    //redirecing to fav tab in case user clicked on FavCountIndicator
     onClickFavCount() {
         this.props.history.push('/favs');
     }
 
     render() {
+        //getting favLength to provide favorites count down in the tree to FavCountIndicator
         let favLength = Object.keys(this.props.favBeersDB).length;
         return (
-            <AuxComp favCountAnimTrigger="true">
+            <AuxComp>
                 <Toolbar openSideDrawer={this.sideDrawerOpenHandler} 
                          favCount={favLength} onClickFavCount={() => this.onClickFavCount()}/>
                 <SideDrawer
@@ -69,4 +72,5 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
+//using withRouter to be able to have router props (like history)
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));

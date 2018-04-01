@@ -5,6 +5,8 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 import DrawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle';
 import FavCountIndicator from '../FavCountIndicator/FavCountIndicator';
 
+
+//functional component containing other components used for navigation
 const toolbar = (props) => {
 	return (
 		<header className={styles.Toolbar}>

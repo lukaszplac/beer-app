@@ -25,6 +25,7 @@ class Favorites extends Component {
         this.setState({leftAnim: "", rightAnim: "", removingCountString: "-1"})
     }
 
+    //removing all favorites from DB as weel as from store
     onRemoveAll() {
         this.setState({removingCountString: "-" + this.props.favBeersAPI.length});
         this.props.removeAllFavs();
@@ -48,6 +49,8 @@ class Favorites extends Component {
                                          CLEAR ALL FAVORITES
                                     </div> : null}
                 {this.props.processing ? <Spinner /> : beers}
+
+                {/*animation when romoving also count of beer beeing removed is passed to that component*/}
                 <AnimHeart count={this.state.removingCountString}/>
             </div>
         );

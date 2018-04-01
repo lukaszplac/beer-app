@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './WheelDown.scss';
 
+//animated component when ther are still some beers to fetch
+//see css
 const wheelDown = (props) => {
     return (
         <div className={styles.WheelContainer + " animated bounceInDown"}>

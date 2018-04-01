@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './Beer.scss';
 import MyLittleSpinner from '../../presentational/MyLittleSpinner/MyLittleSpinner';
 
+
+//simple compoenent to render beer inside Beers container
 const beer = (props) => {
     let classes = [props.classes, styles.Beer];
     return (

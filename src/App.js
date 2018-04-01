@@ -10,7 +10,8 @@ import ModalHoc from './hoc/ModalHoc/ModalHoc';
 
 class App extends Component {
   render() {
-
+    //Switch - only one route at the time
+    //in case of not match redirection to home - "/"
     let routes  = (
       <Switch>
         <Route path='/' exact component={Beers} />
@@ -21,6 +22,7 @@ class App extends Component {
     );
 
     return (
+      //wrapping routes inside Layout hoc
       <div>
         <Layout>
           {routes}
@@ -29,16 +31,5 @@ class App extends Component {
     );
   }
 }
-
-// const mapStateToProps = state => {
-//   return {
-//     isAuthenticated: true
-//   }
-// }
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onTryAutoSign: () => dispatch(actions.onLoad())
-//   }
-// }
 
 export default withRouter(connect(null, null)(App));

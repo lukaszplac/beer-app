@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './FavBeer.scss';
 
+//simple functional component to provide info for Favorites container
 const favBeer = (props) => {
     let classes = [props.classes, styles.Beer];
     return (

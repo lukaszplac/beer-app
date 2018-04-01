@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './TipRightClick.scss';
 
+//simple functional component to provide info for Beers container
+//z-index set to 1000 to appear even above modal when it is open
 const tipRightClick = props => (
-    //inline styles to change behavior a little bit for Tip showing when modal is open
     <div className={styles.Tip}>
         <p>{props.text}</p>
     </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './SimillarBeers.scss';
 import * as orderTypes from '../../containers/BeerDetails/beerOrder';
 
-
+//simple functional component to provide info for RightPanelComponent and then in higher order by BeerDetails
 const abvBeers = (props) => {
     let simillarBeers = props.beers.map((beer) => {
                                         let info = props.type === orderTypes.ABV_GT ? <p>ABV:{beer.abv}</p> : <p>IBU:{beer.ibu}</p>  
