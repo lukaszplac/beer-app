@@ -139,7 +139,6 @@ class Beers extends Component {
                             {this.state.beerToShow != null ? <BeerDetails
                                                                 beersCount={this.props.favBeers.length}
                                                                 beer={this.props.beers[this.state.beerToShow]}
-                                                                areAllFetched={this.props.allFetched}
                                                                 favAlertAppear={() => this.favAlertAppearFromModal()}
                                                                 favAlertReset={() => this.favAlertResetFromModal()}/> : null}
                     </Modal>

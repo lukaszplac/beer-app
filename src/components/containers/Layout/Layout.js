@@ -43,7 +43,8 @@ class Layout extends Component {
         let favLength = Object.keys(this.props.favBeersDB).length;
         return (
             <AuxComp favCountAnimTrigger="true">
-                <Toolbar openSideDrawer={this.sideDrawerOpenHandler} favCount={favLength} onClickFavCount={() => this.onClickFavCount()}/>
+                <Toolbar openSideDrawer={this.sideDrawerOpenHandler} 
+                         favCount={favLength} onClickFavCount={() => this.onClickFavCount()}/>
                 <SideDrawer
 					open={this.state.showSideDrawer}
 					closed={this.sideDrawerClosedHandler}/>

@@ -25,7 +25,7 @@
         @include flex(0 1 40%);
         max-width: 7%;
         height: auto;
-        @media only screen and (max-width : 768px) {
+        @media only screen and (max-width : 767px) {
             @include flex(0 1 30%);
         }
     }
@@ -37,7 +37,7 @@
         @include justify-content(center);
         @include align-content(center);
         margin: 10px 0 10px 0;
-        @media only screen and (max-width : 768px) {
+        @media only screen and (max-width : 767px) {
             @include flex(0 1 60%);
         }
     }
@@ -46,7 +46,7 @@
         color: rgb(115, 45, 128);
         font-weight: bold;
         padding: 10px 10px 2px 10px;
-        @media only screen and (max-width : 768px) {
+        @media only screen and (max-width : 767px) {
             font-size: 14px;
         }
     }

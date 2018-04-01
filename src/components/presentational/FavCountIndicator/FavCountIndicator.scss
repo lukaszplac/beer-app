@@ -7,7 +7,6 @@
     @include justify-content(space-around); 
     @include align-content(center);
     box-sizing: border-box;
-    height: 60%;
     opacity: 0;
     border: 2px solid white;
     border-radius: 5px;
@@ -65,3 +64,52 @@
         width: 60px;
     }
 }
+
+.Tooltip {
+        display: flex;
+        flex-direction: column;
+        h4 {
+            color: rgb(92, 43, 100);
+        }
+        p {
+            color: gray;
+            font-size: 12px;
+        }
+        .TooltipTitle {
+            border-bottom: 2px solid rgb(92, 43, 100);
+        }
+        .TooltipItem {
+            display: flex;
+            flex: 0 1 20%;
+            flex-direction: row;
+            justify-content: space-around;
+            margin-top: 2px;
+            border-bottom: 2px solid  rgb(92, 43, 100);
+            img {
+                max-width: 10%;
+                height: auto;
+                flex: 0 1 5%;
+                max-height: 80%;
+                align-self: center;
+            }
+            .TooltipItemDescr {
+                flex: 0 1 60%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .Trash {
+                display: flex;
+                flex-direction: column;
+                flex: 0 1 15%;
+                align-content: center;
+                justify-content: center;
+                align-items: center;
+                i {
+                    font-size: 22px;
+                }
+            }
+        } 
+}
+
+
